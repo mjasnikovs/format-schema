@@ -1,0 +1,8 @@
+.git
+node_modules
+test
+assets
+.eslintignore
+.eslintrc
+.gitignore
+.travis.yml
