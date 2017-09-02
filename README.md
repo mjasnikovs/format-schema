@@ -1,4 +1,4 @@
-# format-schema
+# format-schema [![Build Status](https://travis-ci.org/mjasnikovs/format-schema.svg?branch=master)](https://travis-ci.org/mjasnikovs/format-schema)
 
 Object input validation and sanitization in node.js and grapqhl-js resolve function
 
