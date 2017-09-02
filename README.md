@@ -1,8 +1,8 @@
 # format-schema
 
-Object input validation and sanitization
+Object input validation and sanitization in node.js and for grapqhl-js resolve function
 
-## install
+### Installation
 
 ```javascript
 npm install --save format-schema
@@ -22,7 +22,7 @@ const {
 
 ```
 
-### format(schema, input)
+## format(schema, input)
 Validate and sanitize input object
 returns sanitized object or error
 
@@ -54,7 +54,7 @@ const result = format(schema, object)
 
 ```
 
-### graphqlFormat(schema, input)
+## graphqlFormat(schema, input)
 Validate and sanitize input object
 returns promise which can resolve with a sanitized object or reject with error
 
@@ -100,7 +100,7 @@ const schema = {
 
 ```
 
-### stringFormat options
+#### stringFormat options
 ```javascript
 const string = stringFormat({
 	/* sanitize */
@@ -148,7 +148,7 @@ const schema = {
 
 ```
 
-### intFormat options
+#### intFormat options
 ```javascript
 const int = stringFormat({
 	/* validate */
@@ -176,7 +176,7 @@ const schema = {
 
 ```
 
-### floatFormat options
+#### floatFormat options
 ```javascript
 const float = floatFormat({
 	/* validate */
@@ -202,6 +202,8 @@ const schema = {
 }
 
 ```
+
+#### booleanFormat options
 
 ```javascript
 const boolean = booleanFormat({
