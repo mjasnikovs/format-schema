@@ -1,6 +1,6 @@
 # format-schema
 
-Object input validation and sanitization in node.js and for grapqhl-js resolve function
+Object input validation and sanitization in node.js and grapqhl-js resolve function
 
 ### Installation
 
@@ -191,7 +191,7 @@ const float = floatFormat({
 	// value is required
 	require: [boolean]
 })
-
+```
 
 ## booleanFormat
 define boolean format in schema object
