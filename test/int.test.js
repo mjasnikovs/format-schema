@@ -50,6 +50,19 @@ test('int Array error', t => {
 	t.end()
 })
 
+test('int boolean error', t => {
+	const integer = false
+	schema.test(t,
+		{
+			message: 'Int "Integer" cannot represent non 32-bit signed integer value: false',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseInt(integer)
+	)
+	t.end()
+})
+
 test('int float error', t => {
 	const integer = 0.0001
 	schema.test(t,
@@ -90,7 +103,7 @@ test('int Date error', t => {
 	t.end()
 })
 
-test('int max', t => {
+test('int max value error', t => {
 	const integer = 2147483648
 	schema.test(t,
 		{
@@ -103,7 +116,7 @@ test('int max', t => {
 	t.end()
 })
 
-test('int error max', t => {
+test('int max value', t => {
 	const integer = 2147483647
 	schema.test(t,
 		integer,
@@ -112,7 +125,7 @@ test('int error max', t => {
 	t.end()
 })
 
-test('int min', t => {
+test('int min value error', t => {
 	const integer = -2147483649
 	schema.test(t,
 		{
@@ -125,20 +138,16 @@ test('int min', t => {
 	t.end()
 })
 
-test('int error min', t => {
-	const integer = -2147483649
+test('int min value', t => {
+	const integer = -2147483648
 	schema.test(t,
-		{
-			message: 'Int "Integer" cannot represent non 32-bit signed integer value: -2147483649',
-			locations: schema.undef,
-			path: schema.undef
-		},
+		integer,
 		parseInt(integer)
 	)
 	t.end()
 })
 
-test('naturalNumber', t => {
+test('int naturalNumber', t => {
 	const integer = 10
 	schema.test(t,
 		integer,
@@ -147,7 +156,7 @@ test('naturalNumber', t => {
 	t.end()
 })
 
-test('naturalNumber error', t => {
+test('int naturalNumber error', t => {
 	const integer = -10
 	schema.test(t,
 		{
@@ -160,7 +169,7 @@ test('naturalNumber error', t => {
 	t.end()
 })
 
-test('notZero', t => {
+test('int notZero', t => {
 	const integer = 10
 	schema.test(t,
 		integer,
@@ -169,7 +178,7 @@ test('notZero', t => {
 	t.end()
 })
 
-test('notZero error', t => {
+test('int notZero error', t => {
 	const integer = 0
 	schema.test(t,
 		{
@@ -182,7 +191,7 @@ test('notZero error', t => {
 	t.end()
 })
 
-test('max', t => {
+test('int max', t => {
 	const integer = 10
 	schema.test(t,
 		integer,
@@ -204,7 +213,7 @@ test('max error', t => {
 	t.end()
 })
 
-test('min', t => {
+test('int min', t => {
 	const integer = 10
 	schema.test(t,
 		integer,
@@ -213,7 +222,7 @@ test('min', t => {
 	t.end()
 })
 
-test('min error', t => {
+test('int min error', t => {
 	const integer = 9
 	schema.test(t,
 		{

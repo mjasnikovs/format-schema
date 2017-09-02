@@ -33,7 +33,7 @@ test('string Array error', t => {
 	t.end()
 })
 
-test('trim', t => {
+test('string trim', t => {
 	const string = ' Hello, world. '
 	schema.test(t,
 		string.trim(),
@@ -42,7 +42,7 @@ test('trim', t => {
 	t.end()
 })
 
-test('trimLeft', t => {
+test('string trimLeft', t => {
 	const string = ' Hello, world. '
 	schema.test(t,
 		string.trimLeft(),
@@ -51,7 +51,7 @@ test('trimLeft', t => {
 	t.end()
 })
 
-test('trimRight', t => {
+test('string trimRight', t => {
 	const string = ' Hello, world. '
 	schema.test(t,
 		string.trimRight(),
@@ -60,7 +60,7 @@ test('trimRight', t => {
 	t.end()
 })
 
-test('toLowerCase', t => {
+test('string toLowerCase', t => {
 	const string = ' Hello, world. '
 	schema.test(t,
 		string.toLowerCase(),
@@ -69,7 +69,7 @@ test('toLowerCase', t => {
 	t.end()
 })
 
-test('toUpperCase', t => {
+test('string toUpperCase', t => {
 	const string = ' Hello, world. '
 	schema.test(t,
 		string.toUpperCase(),
@@ -78,7 +78,7 @@ test('toUpperCase', t => {
 	t.end()
 })
 
-test('truncate', t => {
+test('string truncate', t => {
 	const string = ' Hello, world. '
 	schema.test(t,
 		string.slice(0, 5),
@@ -87,7 +87,7 @@ test('truncate', t => {
 	t.end()
 })
 
-test('capitalize: words', t => {
+test('string capitalize: words', t => {
 	const string = ' hello, world. '
 	schema.test(t,
 		' Hello, World. ',
@@ -96,7 +96,7 @@ test('capitalize: words', t => {
 	t.end()
 })
 
-test('capitalize: sentences', t => {
+test('string capitalize: sentences', t => {
 	const string = 'hello, world. my friend!. hello.'
 	schema.test(t,
 		'Hello, world. My friend!. Hello.',
@@ -105,7 +105,7 @@ test('capitalize: sentences', t => {
 	t.end()
 })
 
-test('capitalize: first', t => {
+test('string capitalize: first', t => {
 	const string = 'hello, world. '
 	schema.test(t,
 		'Hello, world. ',
@@ -127,7 +127,7 @@ test('string notEmpty', t => {
 	t.end()
 })
 
-test('empty', t => {
+test('string empty', t => {
 	const string = ''
 	schema.test(t,
 		'',
@@ -136,7 +136,7 @@ test('empty', t => {
 	t.end()
 })
 
-test('min', t => {
+test('string min', t => {
 	const string = '123456'
 	schema.test(t,
 		string,
@@ -145,7 +145,7 @@ test('min', t => {
 	t.end()
 })
 
-test('min error', t => {
+test('string min error', t => {
 	const string = '1234'
 	schema.test(t,
 		{
@@ -158,7 +158,7 @@ test('min error', t => {
 	t.end()
 })
 
-test('max', t => {
+test('string max', t => {
 	const string = '123456'
 	schema.test(t,
 		string,
@@ -167,7 +167,7 @@ test('max', t => {
 	t.end()
 })
 
-test('max error', t => {
+test('string max error', t => {
 	const string = '123456'
 	schema.test(t,
 		{
@@ -180,7 +180,7 @@ test('max error', t => {
 	t.end()
 })
 
-test('email', t => {
+test('string email', t => {
 	const string = 'test@test.com'
 	schema.test(t,
 		string,
@@ -189,7 +189,7 @@ test('email', t => {
 	t.end()
 })
 
-test('email empty', t => {
+test('string email empty', t => {
 	const string = ''
 	schema.test(t,
 		string,
@@ -198,7 +198,7 @@ test('email empty', t => {
 	t.end()
 })
 
-test('email required', t => {
+test('string email required', t => {
 	const string = ''
 	schema.test(t,
 		{
@@ -211,7 +211,7 @@ test('email required', t => {
 	t.end()
 })
 
-test('email with subdomain', t => {
+test('string email with subdomain', t => {
 	const string = 'test.test@test.com'
 	schema.test(t,
 		string,
@@ -220,7 +220,7 @@ test('email with subdomain', t => {
 	t.end()
 })
 
-test('email error', t => {
+test('string email error', t => {
 	const string = 'test@test'
 	schema.test(t,
 		{
@@ -233,7 +233,7 @@ test('email error', t => {
 	t.end()
 })
 
-test('email error @', t => {
+test('string email error @', t => {
 	const string = 'test@test@test.com'
 	schema.test(t,
 		{

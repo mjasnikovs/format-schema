@@ -1,7 +1,3 @@
-const {
-	GraphQLError
-} = require('graphql')
-
 const isNaturalNumber = n => typeof n === 'number' && n % 1 === 0 && Number.isInteger(n) && n >= 0
 
 const wordRegex = /(?:^|\s)\S/g
@@ -23,14 +19,15 @@ const defaultConfig = {
 	notEmpty: false,
 	min: false,
 	max: false,
-	email: false
+	email: false,
+	require: false
 }
 
 module.exports = (value, options) => {
 	const config = Object.assign({}, defaultConfig, options)
 
 	if (Array.isArray(value)) {
-		return new GraphQLError(`Argument "${config.name}" cannot represent an array value: [${String(value)}]`)
+		return new Error(`Argument "${config.name}" cannot represent an array value: [${String(value)}]`)
 	}
 
 	let str = String(value).slice(0)
@@ -73,25 +70,25 @@ module.exports = (value, options) => {
 	// validate
 	if (config.notEmpty === true) {
 		if (str === '') {
-			return new GraphQLError(`Argument "${config.name}" has invalid value "${str}". Expected not-empty string, found "${str}".`)
+			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected not-empty string, found "${str}".`)
 		}
 	}
 
 	if (isNaturalNumber(config.min)) {
 		if (str.length < config.min) {
-			return new GraphQLError(`Argument "${config.name}" has invalid value "${str}". Expected minimum length of ${config.min} characters, found "${str.length}".`)
+			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected minimum length of ${config.min} characters, found "${str.length}".`)
 		}
 	}
 
 	if (isNaturalNumber(config.max)) {
 		if (str.length > config.max) {
-			return new GraphQLError(`Argument "${config.name}" has invalid value "${str}". Expected maximum length of ${config.max} characters, found "${str.length}".`)
+			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected maximum length of ${config.max} characters, found "${str.length}".`)
 		}
 	}
 
 	if (config.notEmpty === true && config.email === true || str && config.email === true) {
 		if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.exec(str) === null) {
-			return new GraphQLError(`Argument "${config.name}" has invalid value "${str}". Expected valid email, found "${str}".`)
+			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected valid email, found "${str}".`)
 		}
 	}
 
