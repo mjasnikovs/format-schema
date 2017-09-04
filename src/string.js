@@ -34,7 +34,9 @@ module.exports = (value, options) => {
 
 	if (value === null && config.notEmpty === false) {
 		return null
-	} else if (value === null) {
+	} else if (typeof value === 'undefined' && config.notEmpty === false) {
+		return value
+	} else if (value === null || typeof value === 'undefined') {
 		str = ''
 	} else {
 		str = String(value).slice(0)

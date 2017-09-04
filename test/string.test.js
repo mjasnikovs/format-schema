@@ -263,7 +263,31 @@ test('string fail null pass', t => {
 			locations: schema.undef,
 			path: schema.undef
 		},
-		parseString(string, {email: true, notEmpty: true})
+		parseString(string, {notEmpty: true})
+	)
+	t.end()
+})
+
+test('string undefined pass', t => {
+	const x = {}
+	const string = x.data
+	schema.test(t,
+		schema.undef,
+		parseString(string)
+	)
+	t.end()
+})
+
+test('string fail undefined pass', t => {
+	const x = {}
+	const string = x.data
+	schema.test(t,
+		{
+			message: 'Argument "String" has invalid value "". Expected not-empty string, found "".',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseString(string, {notEmpty: true})
 	)
 	t.end()
 })

@@ -126,7 +126,7 @@ const string = stringFormat({
 	// /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 	email: [boolean],
 	/* validate */
-	// not "" or null
+	// not "" or [null] or [undefined]
 	notEmpty: [boolean],
 	// requirement for minimum strings length
 	min: [integer],
