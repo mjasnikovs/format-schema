@@ -56,7 +56,9 @@ const format = (schema, values) => {
 					return true
 				}
 
-				Reflect.set(result, key, formatValue)
+				if (typeof result !== 'undefined') {
+					Reflect.set(result, key, formatValue)
+				}
 			} else if (localSchema.$options.require === true) {
 				result = new Error(`Argument "${key}" cannot be undefined. Found: undefined`)
 				return true
