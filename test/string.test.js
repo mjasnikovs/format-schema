@@ -245,3 +245,25 @@ test('string email error @', t => {
 	)
 	t.end()
 })
+
+test('string null pass', t => {
+	const string = null
+	schema.test(t,
+		string,
+		parseString(string)
+	)
+	t.end()
+})
+
+test('string fail null pass', t => {
+	const string = null
+	schema.test(t,
+		{
+			message: 'Argument "String" has invalid value "". Expected not-empty string, found "".',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseString(string, {email: true, notEmpty: true})
+	)
+	t.end()
+})

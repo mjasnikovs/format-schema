@@ -30,7 +30,15 @@ module.exports = (value, options) => {
 		return new Error(`Argument "${config.name}" cannot represent an array value: [${String(value)}]`)
 	}
 
-	let str = String(value).slice(0)
+	let str = ''
+
+	if (value === null && config.notEmpty === false) {
+		return null
+	} else if (value === null) {
+		str = ''
+	} else {
+		str = String(value).slice(0)
+	}
 
 	// sanitize
 	if (config.trim === true) {
