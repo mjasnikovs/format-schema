@@ -3,7 +3,11 @@ const {
 	stringFormat,
 	intFormat,
 	floatFormat,
-	booleanFormat
+	booleanFormat,
+	STRING,
+	INTEGER,
+	FLOAT,
+	BOOLEAN
 } = require('./src/format')
 
 const graphqlFormat = require('./src/graphqlFormat')
@@ -14,5 +18,9 @@ module.exports = {
 	stringFormat,
 	intFormat,
 	floatFormat,
-	booleanFormat
+	booleanFormat,
+	STRING,
+	INTEGER,
+	FLOAT,
+	BOOLEAN
 }

@@ -125,5 +125,9 @@ module.exports = {
 	stringFormat,
 	intFormat,
 	floatFormat,
-	booleanFormat
+	booleanFormat,
+	STRING,
+	INTEGER,
+	FLOAT,
+	BOOLEAN
 }
