@@ -315,7 +315,7 @@ test('string enum fails', t => {
 	const string = 'fish'
 	schema.test(t,
 		{
-			message: 'Argument "String" has invalid value "fish". Expected one of values cat,dog, found "fish"',
+			message: 'Argument "String" has invalid value "fish". Expected one of values "cat,dog", found "fish"',
 			locations: schema.undef,
 			path: schema.undef
 		},

@@ -75,6 +75,12 @@ const stringFormat = ($options = {}) => {
 		return new Error(`Schema has invalid option value "${String($options)}". Expected Object`)
 	}
 
+	if ($options.enum) {
+		if (!Array.isArray($options.enum)) {
+			return new Error(`Schema has invalid option value "${String($options)}". Expected enum as Array`)
+		}
+	}
+
 	return {
 		$type: STRING,
 		$options

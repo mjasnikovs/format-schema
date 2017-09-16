@@ -87,7 +87,7 @@ module.exports = (value, options) => {
 
 	if (config.enum && str !== '') {
 		if (config.enum.indexOf(str) === -1) {
-			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected one of values ${config.enum}, found "${str}"`)
+			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected one of values "${config.enum}", found "${str}"`)
 		}
 	}
 
