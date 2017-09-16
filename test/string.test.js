@@ -291,3 +291,26 @@ test('string fail undefined pass', t => {
 	)
 	t.end()
 })
+
+test('string enum', t => {
+	const string = 'cat'
+	schema.test(t,
+		string,
+		parseString(string, {enum: ['cat', 'dog']})
+	)
+	t.end()
+})
+
+test('string enum fails', t => {
+	const string = 'fish'
+	schema.test(t,
+		{
+			message: 'Argument "String" has invalid value "fish". Expected one of values cat,dog, found "fish"',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseString(string, {enum: ['cat', 'dog']})
+	)
+	t.end()
+})
+

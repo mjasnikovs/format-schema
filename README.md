@@ -133,6 +133,8 @@ const string = stringFormat({
 	// requirement for maximum strings lenght
 	max: [integer],
 	// value is required
+	enum: [array:<string>]
+	// list of valid string values
 	require: [boolean]
 })
 

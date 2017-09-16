@@ -14,6 +14,7 @@ const defaultConfig = {
 	toUpperCase: false,
 	truncate: false,
 	capitalize: false,
+	enum: false,
 
 	// validate
 	notEmpty: false,
@@ -81,6 +82,12 @@ module.exports = (value, options) => {
 	if (config.notEmpty === true) {
 		if (str === '') {
 			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected not-empty string, found "${str}".`)
+		}
+	}
+
+	if (config.enum) {
+		if (config.enum.indexOf(str) === -1) {
+			return new Error(`Argument "${config.name}" has invalid value "${str}". Expected one of values ${config.enum}, found "${str}"`)
 		}
 	}
 
