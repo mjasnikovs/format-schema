@@ -301,6 +301,16 @@ test('string enum', t => {
 	t.end()
 })
 
+test('string enum empty string', t => {
+	const string = ''
+	schema.test(t,
+		string,
+		parseString(string, {enum: ['cat', 'dog']})
+	)
+	t.end()
+})
+
+
 test('string enum fails', t => {
 	const string = 'fish'
 	schema.test(t,
@@ -313,4 +323,3 @@ test('string enum fails', t => {
 	)
 	t.end()
 })
-

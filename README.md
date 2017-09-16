@@ -134,7 +134,7 @@ const string = stringFormat({
 	max: [integer],
 	// value is required
 	enum: [array:<string>]
-	// list of valid string values
+	// list of valid string values, empty value "" is allowed. Use notEmpty to block this.
 	require: [boolean]
 })
 
