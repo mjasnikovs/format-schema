@@ -31,9 +31,9 @@ test('postgresFormat schema', t => {
 		int: 22
 	}
 
-	const {result, postgres} = postgresFormat(objectFormat, object)
+	const {inputs, postgres} = postgresFormat(objectFormat, object)
 
-	schema.test(t, schemaObject, result)
+	schema.test(t, schemaObject, inputs)
 	schema.test(t, schemaPostgresObject, postgres)
 	t.end()
 })
@@ -50,8 +50,8 @@ test('postgresFormat schema undefined format error', t => {
 		int: 22
 	}
 
-	const result = postgresFormat(objectFormat, object)
-	schema.test(t, 'Schema has invalid value "aaa". Expected format Object', result.message)
+	const inputs = postgresFormat(objectFormat, object)
+	schema.test(t, 'Schema has invalid value "aaa". Expected format Object', inputs.message)
 
 	t.end()
 })
@@ -74,8 +74,8 @@ test('postgresFormat schema fail', t => {
 
 	const fakeTape = {equal: (val, tar, msg) => t.notEqual(val, tar, msg)}
 
-	const result = postgresFormat(objectFormat, object)
-	schema.test(fakeTape, schemaObject, result)
+	const inputs = postgresFormat(objectFormat, object)
+	schema.test(fakeTape, schemaObject, inputs)
 
 	t.end()
 })
@@ -92,8 +92,8 @@ test('postgresFormat schema fail with true (ignore) testing', t => {
 		int: 'string'
 	}
 
-	const result = postgresFormat(objectFormat, object)
-	schema.test(t, 'undefined type, "undefined" in schema', result.message)
+	const inputs = postgresFormat(objectFormat, object)
+	schema.test(t, 'undefined type, "undefined" in schema', inputs.message)
 
 	t.end()
 })
@@ -115,9 +115,9 @@ test('postgresFormat schema passing undefined values', t => {
 
 	const object = {}
 
-	const {result, postgres} = postgresFormat(objectFormat, object)
+	const {inputs, postgres} = postgresFormat(objectFormat, object)
 
-	schema.test(t, schemaObject, result)
+	schema.test(t, schemaObject, inputs)
 	schema.test(t, [], postgres)
 
 	t.end()
@@ -132,8 +132,8 @@ test('postgresFormat schema fail on require string', t => {
 	}
 
 	const object = {}
-	const result = postgresFormat(objectFormat, object)
-	schema.test(t, 'Argument "string" cannot be undefined. Found: undefined', result.message)
+	const inputs = postgresFormat(objectFormat, object)
+	schema.test(t, 'Argument "string" cannot be undefined. Found: undefined', inputs.message)
 	t.end()
 })
 
@@ -146,8 +146,8 @@ test('postgresFormat schema fail on require float', t => {
 	}
 
 	const object = {}
-	const result = postgresFormat(objectFormat, object)
-	schema.test(t, 'Argument "float" cannot be undefined. Found: undefined', result.message)
+	const inputs = postgresFormat(objectFormat, object)
+	schema.test(t, 'Argument "float" cannot be undefined. Found: undefined', inputs.message)
 	t.end()
 })
 
@@ -160,8 +160,8 @@ test('postgresFormat schema fail on require int', t => {
 	}
 
 	const object = {}
-	const result = postgresFormat(objectFormat, object)
-	schema.test(t, 'Argument "int" cannot be undefined. Found: undefined', result.message)
+	const inputs = postgresFormat(objectFormat, object)
+	schema.test(t, 'Argument "int" cannot be undefined. Found: undefined', inputs.message)
 	t.end()
 })
 
@@ -174,7 +174,7 @@ test('postgresFormat schema fail on require float', t => {
 	}
 
 	const object = {}
-	const result = postgresFormat(objectFormat, object)
-	schema.test(t, 'Argument "boolean" cannot be undefined. Found: undefined', result.message)
+	const inputs = postgresFormat(objectFormat, object)
+	schema.test(t, 'Argument "boolean" cannot be undefined. Found: undefined', inputs.message)
 	t.end()
 })

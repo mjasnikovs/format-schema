@@ -7,15 +7,15 @@ const {
 } = require('./format')
 
 module.exports = (schema, values) => {
-	const result = format(schema, values)
+	const inputs = format(schema, values)
 
-	if (result instanceof Error) {
-		return result
+	if (inputs instanceof Error) {
+		return inputs
 	}
 
-	const postgres = Object.keys(result).map(key => {
+	const postgres = Object.keys(inputs).map(key => {
 		const {$type} = schema[key]
-		const value = result[key]
+		const value = inputs[key]
 
 		if ($type === STRING) {
 			return {key, type: 'text', value}
@@ -32,7 +32,7 @@ module.exports = (schema, values) => {
 	const error = postgres.find(val => val instanceof Error)
 
 	if (typeof error === 'undefined') {
-		return {result, postgres}
+		return {inputs, postgres}
 	}
 
 	return error
