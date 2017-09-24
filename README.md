@@ -191,7 +191,11 @@ const float = floatFormat({
 	// maximum value
 	max: [integer],
 	// value is required
-	require: [boolean]
+	require: [boolean],
+	// value is latitude
+	latitude: [boolean],
+	// value is longitude
+	longitude: [boolean]
 })
 ```
 

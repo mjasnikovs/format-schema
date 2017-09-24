@@ -8,7 +8,9 @@ const defaultConfig = {
 	notZero: false,
 	min: false,
 	max: false,
-	require: false
+	require: false,
+	latitude: false,
+	longitude: false
 }
 
 const MAX_INT = 2147483647
@@ -56,6 +58,18 @@ module.exports = (value, options) => {
 	if (isNaturalNumber(config.max)) {
 		if (float > config.max) {
 			return new Error(`Argument "${config.name}" has invalid value "${float}". Expected maximum value of ${config.max}, found: ${float}`)
+		}
+	}
+
+	if (config.latitude === true) {
+		if (float < -90 || float > 90) {
+			return new Error(`Argument "${config.name}" has invalid value "${float}". Expected latitude, found: ${float}`)
+		}
+	}
+
+	if (config.longitude === true) {
+		if (float < -180 || float > 180) {
+			return new Error(`Argument "${config.name}" has invalid value "${float}". Expected longitude, found: ${float}`)
 		}
 	}
 

@@ -198,3 +198,75 @@ test('float min error', t => {
 	)
 	t.end()
 })
+
+test('float latitude', t => {
+	const float = 10
+	schema.test(t,
+		float,
+		parseFloat(float, {latitude: true})
+	)
+	t.end()
+})
+
+test('float latitude error -91', t => {
+	const float = -91
+	schema.test(t,
+		{
+			message: 'Argument "Float" has invalid value "-91". Expected latitude, found: -91',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseFloat(float, {latitude: true})
+	)
+	t.end()
+})
+
+test('float latitude error 91', t => {
+	const float = 91
+	schema.test(t,
+		{
+			message: 'Argument "Float" has invalid value "91". Expected latitude, found: 91',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseFloat(float, {latitude: true})
+	)
+	t.end()
+})
+
+test('float longitude', t => {
+	const float = 10
+	schema.test(t,
+		float,
+		parseFloat(float, {longitude: true})
+	)
+	t.end()
+})
+
+test('float longitude error -181', t => {
+	const float = -181
+	schema.test(t,
+		{
+			message: 'Argument "Float" has invalid value "-181". Expected longitude, found: -181',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseFloat(float, {longitude: true})
+	)
+	t.end()
+})
+
+test('float longitude error 181', t => {
+	const float = 181
+	schema.test(t,
+		{
+			message: 'Argument "Float" has invalid value "181". Expected longitude, found: 181',
+			locations: schema.undef,
+			path: schema.undef
+		},
+		parseFloat(float, {longitude: true})
+	)
+	t.end()
+})
+
+
