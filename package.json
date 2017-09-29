@@ -1,6 +1,6 @@
 {
   "name": "format-schema",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "object input validation and sanitization",
   "main": "index.js",
   "scripts": {

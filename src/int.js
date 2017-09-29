@@ -5,6 +5,7 @@ const defaultConfig = {
 
 	// validate
 	naturalNumber: false,
+	notEmpty: false,
 	notZero: false,
 	min: false,
 	max: false,
@@ -27,6 +28,10 @@ module.exports = (value, options) => {
 
 	if (value === true || value === false) {
 		return new Error(`Int "${config.name}" cannot represent non 32-bit signed integer value: ${String(value)}`)
+	}
+
+	if (value === null && config.notEmpty === false) {
+		return null
 	}
 
 	const num = Number(value)

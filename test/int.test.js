@@ -11,6 +11,15 @@ test('int', t => {
 	t.end()
 })
 
+test('int as null', t => {
+	const integer = null
+	schema.test(t,
+		integer,
+		parseInt(integer)
+	)
+	t.end()
+})
+
 test('int string error', t => {
 	const integer = '2147483648'
 	schema.test(t,

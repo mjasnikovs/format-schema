@@ -156,6 +156,8 @@ const int = stringFormat({
 	/* validate */
 	// 0 or positive integer
 	naturalNumber: [boolean],
+	// not null
+	notEmpty: [boolean],
 	// not 0 or -0
 	notZero: [boolean],
 	// minimum value
@@ -184,6 +186,8 @@ const float = floatFormat({
 	/* validate */
 	// positive float, > 0
 	positive: [boolean],
+	// not null
+	notEmpty: [boolean],
 	// not 0 or -0
 	notZero: [boolean],
 	// minimum value

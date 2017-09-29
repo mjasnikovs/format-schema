@@ -11,6 +11,15 @@ test('float', t => {
 	t.end()
 })
 
+test('float as null', t => {
+	const float = null
+	schema.test(t,
+		float,
+		parseFloat(float)
+	)
+	t.end()
+})
+
 test('float string error', t => {
 	const float = '2147483648'
 	schema.test(t,
