@@ -77,6 +77,22 @@ const isLongitude = input => {
 	return input > -180 && input < 180 && typeof input === 'number'
 }
 
+const isMaxNumber = (input, n) => {
+	return input <= n
+}
+
+const isMinNumber = (input, n) => {
+	return input >= n
+}
+
+const isMaxString = (input, n) => {
+	return input.length <= n
+}
+
+const isMinString = (input, n) => {
+	return input.length >= n
+}
+
 module.exports = {
 	notUndef,
 	notEmpty,
@@ -88,5 +104,9 @@ module.exports = {
 	isString,
 	isBoolean,
 	isLatitude,
-	isLongitude
+	isLongitude,
+	isMaxNumber,
+	isMinNumber,
+	isMaxString,
+	isMinString
 }

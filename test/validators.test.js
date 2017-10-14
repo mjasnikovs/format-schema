@@ -12,7 +12,11 @@ const {
 	isString,
 	isBoolean,
 	isLatitude,
-	isLongitude
+	isLongitude,
+	isMaxNumber,
+	isMinNumber,
+	isMaxString,
+	isMinString
 } = require('../src/validators')
 
 test('notUndef', t => {
@@ -393,4 +397,30 @@ test('isLongitude', t => {
 			longitudeSmall: false,
 			longitudeBig: false
 		})
+})
+
+test('MinMax', t => {
+	t.plan(8)
+	schema.test(t,
+		{
+			isMaxNumber: isMaxNumber(1, 1),
+			isMinNumber: isMinNumber(1, 1),
+			isMaxString: isMaxString('string', 6),
+			isMinString: isMinString('string', 6),
+			isMaxNumberFalse: isMaxNumber(2, 1),
+			isMinNumberFalse: isMinNumber(0, 1),
+			isMaxStringFalse: isMaxString('strings', 6),
+			isMinStringFalse: isMinString('strin', 6)
+		},
+		{
+			isMaxNumber: true,
+			isMinNumber: true,
+			isMaxString: true,
+			isMinString: true,
+			isMaxNumberFalse: false,
+			isMinNumberFalse: false,
+			isMaxStringFalse: false,
+			isMinStringFalse: false
+		}
+	)
 })
