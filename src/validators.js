@@ -93,6 +93,10 @@ const isMinString = (input, n) => {
 	return input.length >= n
 }
 
+const inEnum = (input, array) => {
+	return array.indexOf(input) !== -1
+}
+
 module.exports = {
 	notUndef,
 	notEmpty,
@@ -108,5 +112,6 @@ module.exports = {
 	isMaxNumber,
 	isMinNumber,
 	isMaxString,
-	isMinString
+	isMinString,
+	inEnum
 }

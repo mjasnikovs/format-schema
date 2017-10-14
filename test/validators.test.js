@@ -16,7 +16,8 @@ const {
 	isMaxNumber,
 	isMinNumber,
 	isMaxString,
-	isMinString
+	isMinString,
+	inEnum
 } = require('../src/validators')
 
 test('notUndef', t => {
@@ -424,3 +425,18 @@ test('MinMax', t => {
 		}
 	)
 })
+
+test('inEnum', t => {
+	t.plan(2)
+	schema.test(t,
+		{
+			enumTrue: inEnum(1, [1, 2, 3]),
+			enumFalse: inEnum(4, [1, 2, 3])
+		},
+		{
+			enumTrue: true,
+			enumFalse: false
+		}
+	)
+})
+
