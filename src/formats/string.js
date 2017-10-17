@@ -7,7 +7,8 @@ const {
 	isEmail,
 	isString,
 	isNaturalNumber,
-	isBoolean
+	isBoolean,
+	isObject
 } = require('../validators')
 
 const {
@@ -127,8 +128,22 @@ const stringFormat = (value, config) => {
 	return string
 }
 
-module.exports = (options = {}) => {
+module.exports = (options = null) => {
+	if (options === null) {
+		return value => stringFormat(value, defaultConfig)
+	}
+
+	if (!isObject(options)) {
+		throw new Error(`Format configuration error. Configuration is invalid. Expected object, found "${options}".`)
+	}
+
 	const config = Object.assign({}, defaultConfig, options)
+
+	const invalidConfigKey = Object.keys(config).find(key => Object.keys(defaultConfig).indexOf(key) === -1)
+
+	if (typeof invalidConfigKey !== 'undefined') {
+		throw new Error(`Format configuration error. Configuration is invalid, param "${invalidConfigKey}" not found. Expected valid configuration object, found invalid key "${invalidConfigKey}".`)
+	}
 
 	if (!isString(config.name)) {
 		throw new Error(`Format configuration error. "name" param has invalid value "${config.name}". Expected string, found "${config.name}".`)
@@ -179,9 +194,9 @@ module.exports = (options = {}) => {
 			throw new Error(`Format configuration error. "enum" param has invalid value "${config.enum}". Expected false or array, found "${config.enum}".`)
 		}
 
-		const find = config.enum.find(val => isString(val) === false)
+		const invalidEnum = config.enum.find(val => isString(val) === false)
 
-		if (typeof find !== 'undefined') {
+		if (typeof invalidEnum !== 'undefined') {
 			throw new Error(`Format configuration error. "enum" param has invalid value "[${config.enum}]". Expected array with strings, found "[${config.enum}]".`)
 		}
 	}

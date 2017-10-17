@@ -5,6 +5,36 @@ const {
 	stringFormat
 } = require('../src/formats')
 
+test('stringFormat invalid type (array) config param', t => {
+	try {
+		stringFormat([])
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. Configuration is invalid. Expected object, found "".')
+		t.end()
+	}
+})
+
+test('stringFormat invalid type (string) config param', t => {
+	try {
+		stringFormat('string')
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. Configuration is invalid. Expected object, found "string".')
+		t.end()
+	}
+})
+
+test('stringFormat invalid config param', t => {
+	try {
+		stringFormat({error: 1})
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. Configuration is invalid, param "error" not found. Expected valid configuration object, found invalid key "error".')
+		t.end()
+	}
+})
+
 test('stringFormat invalid config name', t => {
 	try {
 		stringFormat({name: 1})
