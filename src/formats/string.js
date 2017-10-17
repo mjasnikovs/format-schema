@@ -127,7 +127,7 @@ const stringFormat = (value, config) => {
 	return string
 }
 
-module.exports = options => {
+module.exports = (options = {}) => {
 	const config = Object.assign({}, defaultConfig, options)
 
 	if (!isString(config.name)) {
