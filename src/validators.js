@@ -97,6 +97,10 @@ const inEnum = (input, array) => {
 	return array.indexOf(input) !== -1
 }
 
+const isObject = object => {
+	return typeof object === 'object' && object !== null && !Array.isArray(object) && object === Object(object)
+}
+
 module.exports = {
 	notUndef,
 	notEmpty,
@@ -113,5 +117,6 @@ module.exports = {
 	isMinNumber,
 	isMaxString,
 	isMinString,
-	inEnum
+	inEnum,
+	isObject
 }

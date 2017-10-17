@@ -17,11 +17,12 @@ const {
 	isMinNumber,
 	isMaxString,
 	isMinString,
-	inEnum
+	inEnum,
+	isObject
 } = require('../src/validators')
 
 test('notUndef', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: notUndef(null),
@@ -35,7 +36,10 @@ test('notUndef', t => {
 			booleanTrue: notUndef(true),
 			booleanFalse: notUndef(false),
 			zero: notUndef(0),
-			zeroMinus: notUndef(-0)
+			zeroMinus: notUndef(-0),
+			array: notUndef([]),
+			object: notUndef({}),
+			date: notUndef(new Date())
 		},
 		{
 			null: true,
@@ -49,12 +53,15 @@ test('notUndef', t => {
 			booleanTrue: true,
 			booleanFalse: true,
 			zero: true,
-			zeroMinus: true
+			zeroMinus: true,
+			array: true,
+			object: true,
+			date: true
 		})
 })
 
 test('notEmpty', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: notEmpty(null),
@@ -68,7 +75,10 @@ test('notEmpty', t => {
 			booleanTrue: notEmpty(true),
 			booleanFalse: notEmpty(false),
 			zero: notEmpty(0),
-			zeroMinus: notEmpty(-0)
+			zeroMinus: notEmpty(-0),
+			array: notUndef([]),
+			object: notUndef({}),
+			date: notUndef(new Date())
 		},
 		{
 			null: false,
@@ -82,12 +92,15 @@ test('notEmpty', t => {
 			booleanTrue: true,
 			booleanFalse: true,
 			zero: true,
-			zeroMinus: true
+			zeroMinus: true,
+			array: true,
+			object: true,
+			date: true
 		})
 })
 
 test('notZero', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: notZero(null),
@@ -101,7 +114,10 @@ test('notZero', t => {
 			booleanTrue: notZero(true),
 			booleanFalse: notZero(false),
 			zero: notZero(0),
-			zeroMinus: notZero(-0)
+			zeroMinus: notZero(-0),
+			array: notZero([]),
+			object: notZero({}),
+			date: notZero(new Date())
 		},
 		{
 			null: true,
@@ -115,12 +131,15 @@ test('notZero', t => {
 			booleanTrue: true,
 			booleanFalse: true,
 			zero: false,
-			zeroMinus: false
+			zeroMinus: false,
+			array: true,
+			object: true,
+			date: true
 		})
 })
 
 test('isEmail', t => {
-	t.plan(16)
+	t.plan(19)
 	schema.test(t,
 		{
 			null: isEmail(null),
@@ -138,7 +157,10 @@ test('isEmail', t => {
 			email: isEmail('test@test.com'),
 			emailSubdomain: isEmail('test.test@test.com'),
 			emailNoEnd: isEmail('test@test'),
-			emailDoubleAt: isEmail('test@test@test.com')
+			emailDoubleAt: isEmail('test@test@test.com'),
+			array: isEmail([]),
+			object: isEmail({}),
+			date: isEmail(new Date())
 		},
 		{
 			null: false,
@@ -156,12 +178,15 @@ test('isEmail', t => {
 			email: true,
 			emailSubdomain: true,
 			emailNoEnd: false,
-			emailDoubleAt: false
+			emailDoubleAt: false,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
 test('isNaturalNumber', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: isNaturalNumber(null),
@@ -175,7 +200,10 @@ test('isNaturalNumber', t => {
 			booleanTrue: isNaturalNumber(true),
 			booleanFalse: isNaturalNumber(false),
 			zero: isNaturalNumber(0),
-			zeroMinus: isNaturalNumber(-0)
+			zeroMinus: isNaturalNumber(-0),
+			array: isNaturalNumber([]),
+			object: isNaturalNumber({}),
+			date: isNaturalNumber(new Date())
 		},
 		{
 			null: false,
@@ -189,12 +217,15 @@ test('isNaturalNumber', t => {
 			booleanTrue: false,
 			booleanFalse: false,
 			zero: true,
-			zeroMinus: false
+			zeroMinus: false,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
 test('isInteger', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: isInteger(null),
@@ -208,7 +239,10 @@ test('isInteger', t => {
 			booleanTrue: isInteger(true),
 			booleanFalse: isInteger(false),
 			zero: isInteger(0),
-			zeroMinus: isInteger(-0)
+			zeroMinus: isInteger(-0),
+			array: isInteger([]),
+			object: isInteger({}),
+			date: isInteger(new Date())
 		},
 		{
 			null: false,
@@ -222,12 +256,15 @@ test('isInteger', t => {
 			booleanTrue: false,
 			booleanFalse: false,
 			zero: true,
-			zeroMinus: true
+			zeroMinus: true,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
 test('isFloat', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: isFloat(null),
@@ -241,7 +278,10 @@ test('isFloat', t => {
 			booleanTrue: isFloat(true),
 			booleanFalse: isFloat(false),
 			zero: isFloat(0),
-			zeroMinus: isFloat(-0)
+			zeroMinus: isFloat(-0),
+			array: isFloat([]),
+			object: isFloat({}),
+			date: isFloat(new Date())
 		},
 		{
 			null: false,
@@ -255,12 +295,15 @@ test('isFloat', t => {
 			booleanTrue: false,
 			booleanFalse: false,
 			zero: true,
-			zeroMinus: true
+			zeroMinus: true,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
 test('isString', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: isString(null),
@@ -274,7 +317,10 @@ test('isString', t => {
 			booleanTrue: isString(true),
 			booleanFalse: isString(false),
 			zero: isString(0),
-			zeroMinus: isString(-0)
+			zeroMinus: isString(-0),
+			array: isString([]),
+			object: isString({}),
+			date: isString(new Date())
 		},
 		{
 			null: false,
@@ -288,12 +334,15 @@ test('isString', t => {
 			booleanTrue: false,
 			booleanFalse: false,
 			zero: false,
-			zeroMinus: false
+			zeroMinus: false,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
 test('isBoolean', t => {
-	t.plan(12)
+	t.plan(15)
 	schema.test(t,
 		{
 			null: isBoolean(null),
@@ -307,7 +356,10 @@ test('isBoolean', t => {
 			booleanTrue: isBoolean(true),
 			booleanFalse: isBoolean(false),
 			zero: isBoolean(0),
-			zeroMinus: isBoolean(-0)
+			zeroMinus: isBoolean(-0),
+			array: isBoolean([]),
+			object: isBoolean({}),
+			date: isBoolean(new Date())
 		},
 		{
 			null: false,
@@ -321,12 +373,15 @@ test('isBoolean', t => {
 			booleanTrue: true,
 			booleanFalse: true,
 			zero: false,
-			zeroMinus: false
+			zeroMinus: false,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
 test('isLatitude', t => {
-	t.plan(14)
+	t.plan(17)
 	schema.test(t,
 		{
 			null: isLatitude(null),
@@ -342,7 +397,10 @@ test('isLatitude', t => {
 			zero: isLatitude(0),
 			zeroMinus: isLatitude(-0),
 			latitudeSmall: isLatitude(-91),
-			latitudeBig: isLatitude(91)
+			latitudeBig: isLatitude(91),
+			array: isLatitude([]),
+			object: isLatitude({}),
+			date: isLatitude(new Date())
 		},
 		{
 			null: false,
@@ -358,13 +416,16 @@ test('isLatitude', t => {
 			zero: true,
 			zeroMinus: true,
 			latitudeSmall: false,
-			latitudeBig: false
+			latitudeBig: false,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
 
 test('isLongitude', t => {
-	t.plan(14)
+	t.plan(17)
 	schema.test(t,
 		{
 			null: isLongitude(null),
@@ -380,7 +441,10 @@ test('isLongitude', t => {
 			zero: isLongitude(0),
 			zeroMinus: isLongitude(-0),
 			longitudeSmall: isLongitude(-181),
-			longitudeBig: isLongitude(181)
+			longitudeBig: isLongitude(181),
+			array: isLongitude([]),
+			object: isLongitude({}),
+			date: isLongitude(new Date())
 		},
 		{
 			null: false,
@@ -396,7 +460,10 @@ test('isLongitude', t => {
 			zero: true,
 			zeroMinus: true,
 			longitudeSmall: false,
-			longitudeBig: false
+			longitudeBig: false,
+			array: false,
+			object: false,
+			date: false
 		})
 })
 
@@ -440,3 +507,43 @@ test('inEnum', t => {
 	)
 })
 
+test('isObject', t => {
+	t.plan(16)
+	schema.test(t,
+		{
+			null: isObject(null),
+			undefined: isObject(),
+			emptyString: isObject(''),
+			string: isObject('string'),
+			number: isObject(1),
+			float: isObject(0.111),
+			nan: isObject(NaN),
+			infinity: isObject(Infinity),
+			booleanTrue: isObject(true),
+			booleanFalse: isObject(false),
+			zero: isObject(0),
+			zeroMinus: isObject(-0),
+			longitudeSmall: isObject(-181),
+			longitudeBig: isObject(181),
+			array: isObject([]),
+			object: isObject({})
+		},
+		{
+			null: false,
+			undefined: false,
+			emptyString: false,
+			string: false,
+			number: false,
+			float: false,
+			nan: false,
+			infinity: false,
+			booleanTrue: false,
+			booleanFalse: false,
+			zero: false,
+			zeroMinus: false,
+			longitudeSmall: false,
+			longitudeBig: false,
+			array: false,
+			object: true
+		})
+})
