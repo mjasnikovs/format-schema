@@ -125,6 +125,16 @@ test('stringFormat invalid config enum', t => {
 	}
 })
 
+test('stringFormat invalid config enum array', t => {
+	try {
+		stringFormat({enum: [1]})
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. "enum" param has invalid value "[1]". Expected array with strings, found "[1]".')
+		t.end()
+	}
+})
+
 test('stringFormat invalid config min', t => {
 	try {
 		stringFormat({min: 'string'})

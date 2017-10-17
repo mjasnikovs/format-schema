@@ -174,8 +174,16 @@ module.exports = (options = {}) => {
 		throw new Error(`Format configuration error. "notEmpty" param has invalid value "${config.notEmpty}". Expected boolean, found "${config.notEmpty}".`)
 	}
 
-	if (config.enum !== false && !Array.isArray(config.enum)) {
-		throw new Error(`Format configuration error. "enum" param has invalid value "${config.enum}". Expected false or array, found "${config.enum}".`)
+	if (config.enum !== false) {
+		if (!Array.isArray(config.enum)) {
+			throw new Error(`Format configuration error. "enum" param has invalid value "${config.enum}". Expected false or array, found "${config.enum}".`)
+		}
+
+		const find = config.enum.find(val => isString(val) === false)
+
+		if (typeof find !== 'undefined') {
+			throw new Error(`Format configuration error. "enum" param has invalid value "[${config.enum}]". Expected array with strings, found "[${config.enum}]".`)
+		}
 	}
 
 	if (config.min !== false && !isNaturalNumber(config.min)) {
