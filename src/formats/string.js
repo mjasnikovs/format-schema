@@ -42,7 +42,7 @@ const defaultConfig = {
 }
 
 const stringFormat = (value, config) => {
-	if (config.notUndef === false) {
+	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
 			return
 		}
@@ -190,5 +190,5 @@ module.exports = (options = {}) => {
 		throw new Error(`Format configuration error. "email" param has invalid value "${config.email}". Expected boolean, found "${config.email}".`)
 	}
 
-	return stringFormat
+	return value => stringFormat(value, config)
 }
