@@ -128,12 +128,12 @@ module.exports = (options = null) => {
 		}
 	}
 
-	if (config.min !== false && !isNaturalNumber(config.min)) {
-		throw new Error(`Format configuration error. "min" param has invalid value "${config.min}". Expected false or natural number, found "${config.min}".`)
+	if (config.min !== false && !isInteger(config.min)) {
+		throw new Error(`Format configuration error. "min" param has invalid value "${config.min}". Expected false or integer, found "${config.min}".`)
 	}
 
-	if (config.max !== false && !isNaturalNumber(config.max)) {
-		throw new Error(`Format configuration error. "max" param has invalid value "${config.max}". Expected false or natural number, found "${config.max}".`)
+	if (config.max !== false && !isInteger(config.max)) {
+		throw new Error(`Format configuration error. "max" param has invalid value "${config.max}". Expected false or integer, found "${config.max}".`)
 	}
 
 	if (!isBoolean(config.notZero)) {

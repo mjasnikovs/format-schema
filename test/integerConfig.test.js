@@ -90,7 +90,7 @@ test('integerFormat invalid config min', t => {
 		integerFormat({min: 'string'})
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format configuration error. "min" param has invalid value "string". Expected false or natural number, found "string".')
+		schema.test(t, e.message, 'Format configuration error. "min" param has invalid value "string". Expected false or integer, found "string".')
 		t.end()
 	}
 })
@@ -100,7 +100,7 @@ test('integerFormat invalid config max', t => {
 		integerFormat({max: 'string'})
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format configuration error. "max" param has invalid value "string". Expected false or natural number, found "string".')
+		schema.test(t, e.message, 'Format configuration error. "max" param has invalid value "string". Expected false or integer, found "string".')
 		t.end()
 	}
 })
