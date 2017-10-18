@@ -1,5 +1,7 @@
-const string = require('./string')
+const stringFormat = require('./string')
+const integerFormat = require('./integer')
 
 module.exports = {
-	stringFormat: string
+	stringFormat,
+	integerFormat
 }
