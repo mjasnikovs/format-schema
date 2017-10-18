@@ -12,7 +12,7 @@ const notEmpty = input => {
 }
 
 // not 0, -1
-const notZero = input => input !== 0 && input !== -0
+const notZero = input => input !== 0 && 1 / input !== -Infinity
 
 // is email
 const isEmail = input => (/^[^\s@]+@[^\s@]+\.[^\s@]+$/).exec(input) !== null
