@@ -76,7 +76,7 @@ test('integerFormat enum pass', t => {
 
 test('integerFormat notZero fail', t => {
 	const e = integerFormat({notZero: true})(0)
-	schema.test(t, e.message, 'Format error. "Integer" has invalid value "-2". Expected natural number, found "-2".')
+	schema.test(t, e.message, 'Format error. "Integer" has invalid value "0". Expected non-zero integer, found "0".')
 	t.end()
 })
 
