@@ -2,9 +2,9 @@ const {
 	notUndef,
 	notEmpty,
 	inEnum,
-	isMaxString,
-	isMinString,
-	isEmail,
+	isMaxNumber,
+	isMinNumber,
+	notZero,
 	isString,
 	isInteger,
 	isNaturalNumber,
@@ -26,6 +26,64 @@ const defaultConfig = {
 }
 
 const integerFormat = (value, config) => {
+	if (config.notUndef === false && config.notEmpty === false) {
+		if (typeof value === 'undefined') {
+			return
+		}
+	}
+
+	if (config.notUndef === true) {
+		if (!notUndef(value)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected integer, found undefined value.`)
+		}
+	}
+
+	if (config.notEmpty === false) {
+		if (value === null) {
+			return null
+		}
+	}
+
+	if (config.notEmpty === true) {
+		if (!notEmpty(value)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected non-empty integer, found "${value}".`)
+		}
+	}
+
+	if (!isInteger(value)) {
+		return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected integer, found "${value}".`)
+	}
+
+	if (config.naturalNumber === true) {
+		if (!isNaturalNumber(value)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected natural number, found "${value}".`)
+		}
+	}
+
+	if (config.notZero === true) {
+		if (!notZero(value)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected non-zero integer, found "${value}".`)
+		}
+	}
+
+	if (config.enum !== false) {
+		if (!inEnum(value, config.enum)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected one of integer values "${config.enum}", found "${value}".`)
+		}
+	}
+
+	if (config.max !== false) {
+		if (!isMaxNumber(value, config.max)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected maximal value "${config.max}", found "${value}".`)
+		}
+	}
+
+	if (config.min !== false) {
+		if (!isMinNumber(value, config.min)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected minimal value "${config.min}", found "${value}".`)
+		}
+	}
+
 	return value
 }
 
