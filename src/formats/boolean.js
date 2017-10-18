@@ -23,7 +23,7 @@ const booleanFormat = (value, config) => {
 
 	if (config.notUndef === true) {
 		if (!notUndef(value)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected float, found undefined value.`)
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected boolean, found undefined value.`)
 		}
 	}
 
@@ -35,7 +35,7 @@ const booleanFormat = (value, config) => {
 
 	if (config.notEmpty === true) {
 		if (!notEmpty(value)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected non-empty float, found "${value}".`)
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected non-empty boolean, found "${value}".`)
 		}
 	}
 
