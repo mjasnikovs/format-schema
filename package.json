@@ -4,7 +4,7 @@
   "description": "object input validation and sanitization",
   "main": "index.js",
   "scripts": {
-    "test": "tape ./test/**/*.testt.js | tap-spec"
+    "test": "tape ./test/**/*.test.js | tap-spec"
   },
   "repository": {
     "type": "git",
