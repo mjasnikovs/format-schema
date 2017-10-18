@@ -8,7 +8,9 @@ const {
 	isString,
 	isFloat,
 	isBoolean,
-	isObject
+	isObject,
+	isLatitude,
+	isLongitude
 } = require('../validators')
 
 const defaultConfig = {
@@ -20,7 +22,10 @@ const defaultConfig = {
 	notZero: false,
 	enum: false,
 	min: false,
-	max: false
+	max: false,
+	positive: false,
+	latitude: false,
+	longitude: false
 }
 
 const floatFormat = (value, config) => {
@@ -73,6 +78,24 @@ const floatFormat = (value, config) => {
 	if (config.min !== false) {
 		if (!isMinNumber(value, config.min)) {
 			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected minimal value "${config.min}", found "${value}".`)
+		}
+	}
+
+	if (config.positive === true) {
+		if (value < 0) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected positve float, found "${value}".`)
+		}
+	}
+
+	if (config.latitude === true) {
+		if (!isLatitude(value)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected latitude, found "${value}".`)
+		}
+	}
+
+	if (config.longitude === true) {
+		if (!isLongitude(value)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected longitude, found "${value}".`)
 		}
 	}
 
@@ -130,6 +153,18 @@ module.exports = (options = null) => {
 
 	if (!isBoolean(config.notZero)) {
 		throw new Error(`Format configuration error. "notZero" param has invalid value "${config.notZero}". Expected boolean, found "${config.notZero}".`)
+	}
+
+	if (!isBoolean(config.positive)) {
+		throw new Error(`Format configuration error. "positive" param has invalid value "${config.positive}". Expected boolean, found "${config.positive}".`)
+	}
+
+	if (!isBoolean(config.latitude)) {
+		throw new Error(`Format configuration error. "latitude" param has invalid value "${config.latitude}". Expected boolean, found "${config.latitude}".`)
+	}
+
+	if (!isBoolean(config.longitude)) {
+		throw new Error(`Format configuration error. "longitude" param has invalid value "${config.longitude}". Expected boolean, found "${config.longitude}".`)
 	}
 
 	return value => floatFormat(value, config)

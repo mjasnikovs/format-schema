@@ -84,3 +84,36 @@ test('floatFormat notZero pass', t => {
 	schema.test(t, 3, floatFormat({notZero: true})(3))
 	t.end()
 })
+
+test('floatFormat positive fail', t => {
+	const e = floatFormat({positive: true})(-1)
+	schema.test(t, e.message, 'Format error. "Float" has invalid value "-1". Expected positve float, found "-1".')
+	t.end()
+})
+
+test('floatFormat positive pass', t => {
+	schema.test(t, 3, floatFormat({positive: true})(3))
+	t.end()
+})
+
+test('floatFormat latitude fail', t => {
+	const e = floatFormat({latitude: true})(-91)
+	schema.test(t, e.message, 'Format error. "Float" has invalid value "-91". Expected latitude, found "-91".')
+	t.end()
+})
+
+test('floatFormat latitude pass', t => {
+	schema.test(t, 3, floatFormat({latitude: true})(3))
+	t.end()
+})
+
+test('floatFormat longitude fail', t => {
+	const e = floatFormat({longitude: true})(-191)
+	schema.test(t, e.message, 'Format error. "Float" has invalid value "-191". Expected longitude, found "-191".')
+	t.end()
+})
+
+test('floatFormat longitude pass', t => {
+	schema.test(t, 3, floatFormat({longitude: true})(3))
+	t.end()
+})

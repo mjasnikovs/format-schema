@@ -115,4 +115,32 @@ test('floatFormat invalid config notZero', t => {
 	}
 })
 
+test('floatFormat invalid config positive', t => {
+	try {
+		floatFormat({positive: 'string'})
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. "positive" param has invalid value "string". Expected boolean, found "string".')
+		t.end()
+	}
+})
 
+test('floatFormat invalid config latitude', t => {
+	try {
+		floatFormat({latitude: 'string'})
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. "latitude" param has invalid value "string". Expected boolean, found "string".')
+		t.end()
+	}
+})
+
+test('floatFormat invalid config longitude', t => {
+	try {
+		floatFormat({longitude: 'string'})
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. "longitude" param has invalid value "string". Expected boolean, found "string".')
+		t.end()
+	}
+})
