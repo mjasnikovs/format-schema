@@ -113,3 +113,49 @@ test('format object fail boolean', t => {
 
 	t.end()
 })
+
+test('format big object success', t => {
+	const formatTest = format({
+		vehicle: integerFormat({naturalNumber: true}),
+		driver: {
+			id: integerFormat({naturalNumber: true}),
+			photo: [
+				{
+					img: stringFormat({notUndef: true})
+				}
+			]
+		},
+		current_latitude: floatFormat({latitude: true}),
+		current_longitude: floatFormat({longitude: true}),
+		closeness: integerFormat({naturalNumber: true}),
+		passenger: {
+			currency: stringFormat({max: 3})
+		},
+		time: stringFormat()
+	})
+
+	const inputs = {
+		vehicle: 10,
+		driver: {
+			id: 1,
+			photo: [
+				{
+					img: 'http://url.com/img.png'
+				},
+				{
+					img: 'http://url.com/img.png'
+				}
+			]
+		},
+		current_latitude: 90.0,
+		current_longitude: 90.0,
+		closeness: 100,
+		passenger: {
+			currency: 'EUR'
+		},
+		time: new Date().toUTCString()
+	}
+
+	schema.test(t, inputs, formatTest(inputs))
+	t.end()
+})
