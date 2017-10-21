@@ -101,33 +101,6 @@ const isObject = object => {
 	return typeof object === 'object' && object !== null && !Array.isArray(object) && object === Object(object)
 }
 
-const validateSchema = schema => {
-	if (!Array.isArray(schema) && !isObject(schema)) {
-		if (typeof schema !== 'function') {
-			return new Error(`Format schema error. Configuration is invalid. Expected functions, found "${schema}".`)
-		}
-
-		return null
-	}
-
-	if (Array.isArray(schema)) {
-		if (schema.length === 0) {
-			return new Error('Format schema error. Configuration is invalid. Expected non-empty array, found "[]".')
-		}
-		return schema.map(validateSchema)
-	}
-
-	if (isObject(schema)) {
-		if (Object.keys(schema).length === 0) {
-			return new Error('Format schema error. Configuration is invalid. Expected non-empty object, found "{}".')
-		}
-
-		return Object.keys(schema).map(key => validateSchema(schema[key]))
-	}
-
-	throw new Error(`Format schema error. Configuration is invalid. Found "${schema}".`)
-}
-
 module.exports = {
 	notUndef,
 	notEmpty,
@@ -145,6 +118,5 @@ module.exports = {
 	isMaxString,
 	isMinString,
 	inEnum,
-	isObject,
-	validateSchema
+	isObject
 }
