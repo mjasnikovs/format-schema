@@ -15,11 +15,24 @@ const format = (schema, values, namespace = '') => {
 	if (Array.isArray(schema)) {
 		if (schema.length === 1) {
 			if (Array.isArray(values)) {
+				if (!values.length) {
+					const localNamespace = namespace ? `${namespace}[0]` : '[0]'
+
+					const result = format(schema[0], values[0], localNamespace)
+
+					if (result instanceof Error) {
+						result.message = result.message.replace(NAMESPACE_DEFAULT_NAME, localNamespace)
+						return result
+					}
+
+					return []
+				}
+
 				let out = []
 				const valuesLength = values.length
 
 				for (let i = 0; i < valuesLength; i += 1) {
-					const localNamespace = namespace ? `[${i}]` : `${namespace}[${i}]`
+					const localNamespace = namespace ? `${namespace}[${i}]` : `[${i}]`
 
 					const result = format(schema[0], values[i], localNamespace)
 
@@ -40,7 +53,7 @@ const format = (schema, values, namespace = '') => {
 			const schemaLength = schema.length
 
 			for (let i = 0; i < schemaLength; i += 1) {
-				const localNamespace = namespace ? `[${i}]` : `${namespace}[${i}]`
+				const localNamespace = namespace ? `${namespace}[${i}]` : `[${i}]` 
 
 				const result = format(schema[i], values[i], localNamespace)
 

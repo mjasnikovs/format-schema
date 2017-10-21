@@ -113,20 +113,3 @@ test('format object fail boolean', t => {
 
 	t.end()
 })
-
-
-test('format missing object fail', t => {
-	const formatTest = format({
-		stringArray: [stringFormat()]
-	})
-
-	const inputs = {
-		stringArray: 'string'
-	}
-
-	const result = formatTest(inputs)
-
-	schema.test(t, result.message, 'Format error. "stringArray" has invalid value "string". Expected array, found "string".')
-
-	t.end()
-})

@@ -118,7 +118,68 @@ test('format deeple nested array fail', t => {
 
 	const result = formatTest(inputs)
 
-	schema.test(t, result.message, 'Format error. "[0]" has invalid value "10". Expected string, found "10".')
+	schema.test(t, result.message, 'Format error. "stringArray[0][0][0]" has invalid value "10". Expected string, found "10".')
+
+	t.end()
+})
+
+test('format missing array fail', t => {
+	const formatTest = format({
+		stringArray: [stringFormat()]
+	})
+
+	const inputs = {
+		stringArray: 'string'
+	}
+
+	const result = formatTest(inputs)
+
+	schema.test(t, result.message, 'Format error. "stringArray" has invalid value "string". Expected array, found "string".')
+
+	t.end()
+})
+
+test('format undefined array success', t => {
+	const formatTest = format({
+		stringArray: [stringFormat()]
+	})
+
+	const inputs = {
+		stringArray: []
+	}
+
+	schema.test(t, inputs, formatTest(inputs))
+	t.end()
+})
+
+test('format undefined array fail', t => {
+	const formatTest = format({
+		stringArray: [stringFormat({notUndef: true})]
+	})
+
+	const inputs = {
+		stringArray: []
+	}
+
+	const result = formatTest(inputs)
+
+	schema.test(t, result.message, 'Format error. "stringArray[0]" has invalid value "undefined". Expected string, found undefined value.')
+
+	t.end()
+})
+
+test('format undefined strict array fail', t => {
+	const formatTest = format({
+		stringArray: [stringFormat({notUndef: true}), stringFormat({notUndef: true})]
+	})
+
+	const inputs = {
+		stringArray: []
+	}
+
+	const result = formatTest(inputs)
+
+	schema.test(t, result.message, 'Format error. "stringArray[0]" has invalid value "undefined". Expected string, found undefined value.')
 
 	t.end()
 })
