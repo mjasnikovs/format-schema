@@ -8,7 +8,8 @@ const {
 } = require('./errorHandling')
 
 const {
-	NAMESPACE_DEFAULT_NAME
+	NAMESPACE_DEFAULT_NAME,
+	UNDEFINED_VALUE
 } = require('./types')
 
 const format = (schema, values, namespace = '') => {
@@ -18,7 +19,7 @@ const format = (schema, values, namespace = '') => {
 				if (!values.length) {
 					const localNamespace = namespace ? `${namespace}[0]` : '[0]'
 
-					const result = format(schema[0], values[0], localNamespace)
+					const result = format(schema[0], UNDEFINED_VALUE, localNamespace)
 
 					if (result instanceof Error) {
 						result.message = result.message.replace(NAMESPACE_DEFAULT_NAME, localNamespace)
@@ -53,7 +54,7 @@ const format = (schema, values, namespace = '') => {
 			const schemaLength = schema.length
 
 			for (let i = 0; i < schemaLength; i += 1) {
-				const localNamespace = namespace ? `${namespace}[${i}]` : `[${i}]` 
+				const localNamespace = namespace ? `${namespace}[${i}]` : `[${i}]`
 
 				const result = format(schema[i], values[i], localNamespace)
 
@@ -81,7 +82,7 @@ const format = (schema, values, namespace = '') => {
 			const key = schemaKeys[i]
 			const localNamespace = namespace ? `${namespace}.${key}` : key
 
-			out[key] = format(schema[key], values[key], localNamespace)
+			out[key] = format(schema[key], values ? values[key] : UNDEFINED_VALUE, localNamespace)
 
 			if (out[key] instanceof Error) {
 				out[key].message = out[key].message.replace(NAMESPACE_DEFAULT_NAME, localNamespace)
