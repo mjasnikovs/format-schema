@@ -70,11 +70,11 @@ const isBoolean = input => {
 }
 
 const isLatitude = input => {
-	return input > -90 && input < 90 && typeof input === 'number'
+	return input >= -90 && input <= 90 && typeof input === 'number'
 }
 
 const isLongitude = input => {
-	return input > -180 && input < 180 && typeof input === 'number'
+	return input >= -180 && input <= 180 && typeof input === 'number'
 }
 
 const isMaxNumber = (input, n) => {
