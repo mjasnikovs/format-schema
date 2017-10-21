@@ -12,8 +12,12 @@ const {
 	isObject
 } = require('../validators')
 
+const {
+	NAMESPACE_DEFAULT_NAME
+} = require('../types')
+
 const defaultConfig = {
-	name: 'Integer',
+	name: NAMESPACE_DEFAULT_NAME,
 
 	// validate
 	notUndef: false,

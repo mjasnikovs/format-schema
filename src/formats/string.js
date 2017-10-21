@@ -21,8 +21,12 @@ const {
 	capitalize
 } = require('../sanitization')
 
+const {
+	NAMESPACE_DEFAULT_NAME
+} = require('../types')
+
 const defaultConfig = {
-	name: 'String',
+	name: NAMESPACE_DEFAULT_NAME,
 
 	// sanitize
 	trim: false,

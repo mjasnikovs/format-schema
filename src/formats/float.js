@@ -13,8 +13,12 @@ const {
 	isLongitude
 } = require('../validators')
 
+const {
+	NAMESPACE_DEFAULT_NAME 
+} = require('../types')
+
 const defaultConfig = {
-	name: 'Float',
+	name: NAMESPACE_DEFAULT_NAME,
 
 	// validate
 	notUndef: false,

@@ -1,4 +1,8 @@
 const {
+	NAMESPACE_DEFAULT_NAME 
+} = require('../types')
+
+const {
 	notUndef,
 	notEmpty,
 	isString,
@@ -7,7 +11,7 @@ const {
 } = require('../validators')
 
 const defaultConfig = {
-	name: 'Boolean',
+	name: NAMESPACE_DEFAULT_NAME,
 
 	// validate
 	notUndef: false,
