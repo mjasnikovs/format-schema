@@ -1,4 +1,5 @@
 const format = require('./format')
+const promiseFormat = require('./promiseFormat')
 
 const {
 	stringFormat,
@@ -9,6 +10,7 @@ const {
 
 module.exports = {
 	format,
+	promiseFormat,
 	stringFormat,
 	integerFormat,
 	floatFormat,
