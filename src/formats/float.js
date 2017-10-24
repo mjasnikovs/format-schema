@@ -14,11 +14,14 @@ const {
 } = require('../validators')
 
 const {
-	NAMESPACE_DEFAULT_NAME 
+	NAMESPACE_DEFAULT_NAME,
+	OUTPUT_FORMAT_TYPE_OBJECT,
+	OUTPUT_FORMAT_TYPE_PG
 } = require('../types')
 
 const defaultConfig = {
 	name: NAMESPACE_DEFAULT_NAME,
+	pgType: 'numeric',
 
 	// validate
 	notUndef: false,
@@ -32,7 +35,7 @@ const defaultConfig = {
 	longitude: false
 }
 
-const floatFormat = (value, config) => {
+const floatFormat = (value, config, outputType) => {
 	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
 			return
@@ -103,12 +106,17 @@ const floatFormat = (value, config) => {
 		}
 	}
 
+	if (outputType === OUTPUT_FORMAT_TYPE_PG) {
+		return {type: config.pgType, value}
+	}
+
 	return value
 }
 
 module.exports = (options = null) => {
 	if (options === null) {
-		return value => floatFormat(value, defaultConfig)
+		return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+			floatFormat(value, defaultConfig, outputType)
 	}
 
 	if (!isObject(options)) {
@@ -171,5 +179,6 @@ module.exports = (options = null) => {
 		throw new Error(`Format configuration error. "longitude" param has invalid value "${config.longitude}". Expected boolean, found "${config.longitude}".`)
 	}
 
-	return value => floatFormat(value, config)
+	return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+		floatFormat(value, config, outputType)
 }

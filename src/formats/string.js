@@ -22,11 +22,14 @@ const {
 } = require('../sanitization')
 
 const {
-	NAMESPACE_DEFAULT_NAME
+	NAMESPACE_DEFAULT_NAME,
+	OUTPUT_FORMAT_TYPE_OBJECT,
+	OUTPUT_FORMAT_TYPE_PG
 } = require('../types')
 
 const defaultConfig = {
 	name: NAMESPACE_DEFAULT_NAME,
+	pgType: 'text',
 
 	// sanitize
 	trim: false,
@@ -46,7 +49,7 @@ const defaultConfig = {
 	email: false
 }
 
-const stringFormat = (value, config) => {
+const stringFormat = (value, config, outputType) => {
 	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
 			return
@@ -129,12 +132,17 @@ const stringFormat = (value, config) => {
 		string = capitalize(string, config.capitalize)
 	}
 
+	if (outputType === OUTPUT_FORMAT_TYPE_PG) {
+		return {type: config.pgType, value: string}
+	}
+
 	return string
 }
 
 module.exports = (options = null) => {
 	if (options === null) {
-		return value => stringFormat(value, defaultConfig)
+		return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+			stringFormat(value, defaultConfig, outputType)
 	}
 
 	if (!isObject(options)) {
@@ -217,5 +225,6 @@ module.exports = (options = null) => {
 		throw new Error(`Format configuration error. "email" param has invalid value "${config.email}". Expected boolean, found "${config.email}".`)
 	}
 
-	return value => stringFormat(value, config)
+	return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+		stringFormat(value, config, outputType)
 }

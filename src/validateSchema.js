@@ -33,7 +33,7 @@ const formatErrors = errors => {
 	return null
 }
 
-const validateSchema = schema => {
+const verifySchema = schema => {
 	if (!Array.isArray(schema) && !isObject(schema)) {
 		if (typeof schema !== 'function') {
 			return new Error(`Format schema error. Configuration is invalid. Expected functions, found "${schema}".`)
@@ -46,7 +46,7 @@ const validateSchema = schema => {
 		if (schema.length === 0) {
 			return new Error('Format schema error. Configuration is invalid. Expected non-empty array, found "[]".')
 		}
-		return schema.map(validateSchema)
+		return schema.map(verifySchema)
 	}
 
 	if (isObject(schema)) {
@@ -54,14 +54,23 @@ const validateSchema = schema => {
 			return new Error('Format schema error. Configuration is invalid. Expected non-empty object, found "{}".')
 		}
 
-		return Object.keys(schema).map(key => validateSchema(schema[key]))
+		return Object.keys(schema).map(key => verifySchema(schema[key]))
 	}
 
 	throw new Error(`Format schema error. Configuration is invalid. Found "${schema}".`)
 }
 
-module.exports = {
-	flatenErrors,
-	formatErrors,
-	validateSchema
+
+module.exports = schema => {
+	if (!isObject(schema) && !Array.isArray(schema)) {
+		throw new Error(`Format schema error. Configuration is invalid. Expected object or array, found "${schema}".`)
+	}
+
+	const schemaError = formatErrors(verifySchema(schema))
+
+	if (schemaError) {
+		throw schemaError
+	}
+
+	return
 }

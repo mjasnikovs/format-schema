@@ -13,11 +13,14 @@ const {
 } = require('../validators')
 
 const {
-	NAMESPACE_DEFAULT_NAME
+	NAMESPACE_DEFAULT_NAME,
+	OUTPUT_FORMAT_TYPE_OBJECT,
+	OUTPUT_FORMAT_TYPE_PG
 } = require('../types')
 
 const defaultConfig = {
 	name: NAMESPACE_DEFAULT_NAME,
+	pgType: 'int',
 
 	// validate
 	notUndef: false,
@@ -29,7 +32,7 @@ const defaultConfig = {
 	max: false
 }
 
-const integerFormat = (value, config) => {
+const integerFormat = (value, config, outputType) => {
 	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
 			return
@@ -88,12 +91,17 @@ const integerFormat = (value, config) => {
 		}
 	}
 
+	if (outputType === OUTPUT_FORMAT_TYPE_PG) {
+		return {type: config.pgType, value}
+	}
+
 	return value
 }
 
 module.exports = (options = null) => {
 	if (options === null) {
-		return value => integerFormat(value, defaultConfig)
+		return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+			integerFormat(value, defaultConfig, outputType)
 	}
 
 	if (!isObject(options)) {
@@ -148,5 +156,6 @@ module.exports = (options = null) => {
 		throw new Error(`Format configuration error. "naturalNumber" param has invalid value "${config.naturalNumber}". Expected boolean, found "${config.naturalNumber}".`)
 	}
 
-	return value => integerFormat(value, config)
+	return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+		integerFormat(value, config, outputType)
 }

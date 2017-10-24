@@ -1,11 +1,12 @@
-const format = require('./format')
+const validateSchema = require('./validateSchema')
+const validateInputs = require('./validateInputs')
 
 module.exports = schema => {
-	const formatTest = format(schema)
+	validateSchema(schema)
 
 	return values =>
 		new Promise((resolve, reject) => {
-			const result = formatTest(values)
+			const result = validateInputs(schema, values)
 
 			if (result instanceof Error) {
 				return reject(result)

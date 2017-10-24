@@ -1,5 +1,7 @@
 const {
-	NAMESPACE_DEFAULT_NAME 
+	NAMESPACE_DEFAULT_NAME,
+	OUTPUT_FORMAT_TYPE_OBJECT,
+	OUTPUT_FORMAT_TYPE_PG
 } = require('../types')
 
 const {
@@ -12,13 +14,14 @@ const {
 
 const defaultConfig = {
 	name: NAMESPACE_DEFAULT_NAME,
+	pgType: 'boolean',
 
 	// validate
 	notUndef: false,
 	notEmpty: false
 }
 
-const booleanFormat = (value, config) => {
+const booleanFormat = (value, config, outputType) => {
 	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
 			return
@@ -47,12 +50,17 @@ const booleanFormat = (value, config) => {
 		return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected boolean, found "${value}".`)
 	}
 
+	if (outputType === OUTPUT_FORMAT_TYPE_PG) {
+		return {type: config.pgType, value}
+	}
+
 	return value
 }
 
 module.exports = (options = null) => {
 	if (options === null) {
-		return value => booleanFormat(value, defaultConfig)
+		return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+			booleanFormat(value, defaultConfig, outputType)
 	}
 
 	if (!isObject(options)) {
@@ -79,5 +87,6 @@ module.exports = (options = null) => {
 		throw new Error(`Format configuration error. "notEmpty" param has invalid value "${config.notEmpty}". Expected boolean, found "${config.notEmpty}".`)
 	}
 
-	return value => booleanFormat(value, config)
+	return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>
+		booleanFormat(value, config, outputType)
 }
