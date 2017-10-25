@@ -43,7 +43,13 @@ const validateInputs = (schema, values, namespace = '', outputType = OUTPUT_FORM
 
 				return out
 			} else {
-				return new Error(`Format error. "${namespace}" has invalid value "${values}". Expected array, found "${values}".`)
+				const localNamespace = namespace ? `${namespace}[0]` : '[0]'
+				const result = validateInputs(schema[0], UNDEFINED_VALUE, localNamespace, outputType)
+
+				if (result instanceof Error) {
+					return new Error(`Format error. "${namespace}" has invalid value "${values}". Expected array, found "${values}".`)
+				}
+				return
 			}
 		} else if (Array.isArray(values)) {
 			let out = []

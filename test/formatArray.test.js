@@ -78,22 +78,6 @@ test('format deep array success', t => {
 	t.end()
 })
 
-test('format missing array fail', t => {
-	const formatTest = format({
-		stringArray: [stringFormat()]
-	})
-
-	const inputs = {
-		stringArray: 'string'
-	}
-
-	const result = formatTest(inputs)
-
-	schema.test(t, result.message, 'Format error. "stringArray" has invalid value "string". Expected array, found "string".')
-
-	t.end()
-})
-
 test('format deeple nested array success', t => {
 	const formatTest = format({
 		stringArray: [[[stringFormat()]]]
@@ -123,9 +107,25 @@ test('format deeple nested array fail', t => {
 	t.end()
 })
 
-test('format missing array fail', t => {
+test('format missing string array sucess', t => {
 	const formatTest = format({
 		stringArray: [stringFormat()]
+	})
+
+	const inputs = {
+		stringArray: 'string'
+	}
+
+	const result = formatTest(inputs)
+
+	schema.test(t, {stringArray: schema.undef}, result)
+
+	t.end()
+})
+
+test('format missing string array fail', t => {
+	const formatTest = format({
+		stringArray: [stringFormat({notEmpty: true})]
 	})
 
 	const inputs = {
