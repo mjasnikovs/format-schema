@@ -13,7 +13,7 @@ npm install --save format-schema
 ```javascript
 const {
     format,
-    graphqlFormat,
+    promiseFormat,
     stringFormat,
     intFormat,
     floatFormat,

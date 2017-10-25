@@ -57,45 +57,47 @@ const integerFormat = (value, config, outputType) => {
 		}
 	}
 
-	if (!isInteger(value)) {
-		return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected integer, found "${value}".`)
+	const integer = typeof value === 'number' ? value : Number(value)
+
+	if (!isInteger(integer)) {
+		return new Error(`Format error. "${config.name}" has invalid value "${integer}". Expected integer, found "${integer}".`)
 	}
 
 	if (config.naturalNumber === true) {
-		if (!isNaturalNumber(value)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected natural number, found "${value}".`)
+		if (!isNaturalNumber(integer)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${integer}". Expected natural number, found "${integer}".`)
 		}
 	}
 
 	if (config.notZero === true) {
-		if (!notZero(value)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected non-zero integer, found "${value}".`)
+		if (!notZero(integer)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${integer}". Expected non-zero integer, found "${integer}".`)
 		}
 	}
 
 	if (config.enum !== false) {
-		if (!inEnum(value, config.enum)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected one of integer values "${config.enum}", found "${value}".`)
+		if (!inEnum(integer, config.enum)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${integer}". Expected one of integer values "${config.enum}", found "${integer}".`)
 		}
 	}
 
 	if (config.max !== false) {
-		if (!isMaxNumber(value, config.max)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected maximal value "${config.max}", found "${value}".`)
+		if (!isMaxNumber(integer, config.max)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${integer}". Expected maximal value "${config.max}", found "${integer}".`)
 		}
 	}
 
 	if (config.min !== false) {
-		if (!isMinNumber(value, config.min)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected minimal value "${config.min}", found "${value}".`)
+		if (!isMinNumber(integer, config.min)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${integer}". Expected minimal value "${config.min}", found "${integer}".`)
 		}
 	}
 
 	if (outputType === OUTPUT_FORMAT_TYPE_PG) {
-		return {type: config.pgType, value}
+		return {type: config.pgType, value: integer}
 	}
 
-	return value
+	return integer
 }
 
 module.exports = (options = null) => {

@@ -60,57 +60,59 @@ const floatFormat = (value, config, outputType) => {
 		}
 	}
 
-	if (!isFloat(value)) {
-		return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected float, found "${value}".`)
+	const float = typeof value === 'number' ? value : Number(value)
+
+	if (!isFloat(float)) {
+		return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected float, found "${float}".`)
 	}
 
 	if (config.notZero === true) {
-		if (!notZero(value)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected non-zero float, found "${value}".`)
+		if (!notZero(float)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected non-zero float, found "${float}".`)
 		}
 	}
 
 	if (config.enum !== false) {
-		if (!inEnum(value, config.enum)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected one of float values "${config.enum}", found "${value}".`)
+		if (!inEnum(float, config.enum)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected one of float values "${config.enum}", found "${float}".`)
 		}
 	}
 
 	if (config.max !== false) {
-		if (!isMaxNumber(value, config.max)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected maximal value "${config.max}", found "${value}".`)
+		if (!isMaxNumber(float, config.max)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected maximal value "${config.max}", found "${float}".`)
 		}
 	}
 
 	if (config.min !== false) {
-		if (!isMinNumber(value, config.min)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected minimal value "${config.min}", found "${value}".`)
+		if (!isMinNumber(float, config.min)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected minimal value "${config.min}", found "${float}".`)
 		}
 	}
 
 	if (config.positive === true) {
-		if (value < 0) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected positve float, found "${value}".`)
+		if (float < 0) {
+			return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected positve float, found "${float}".`)
 		}
 	}
 
 	if (config.latitude === true) {
-		if (!isLatitude(value)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected latitude, found "${value}".`)
+		if (!isLatitude(float)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected latitude, found "${float}".`)
 		}
 	}
 
 	if (config.longitude === true) {
-		if (!isLongitude(value)) {
-			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected longitude, found "${value}".`)
+		if (!isLongitude(float)) {
+			return new Error(`Format error. "${config.name}" has invalid value "${float}". Expected longitude, found "${float}".`)
 		}
 	}
 
 	if (outputType === OUTPUT_FORMAT_TYPE_PG) {
-		return {type: config.pgType, value}
+		return {type: config.pgType, value: float}
 	}
 
-	return value
+	return float
 }
 
 module.exports = (options = null) => {
