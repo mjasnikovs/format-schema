@@ -25,7 +25,7 @@ const formatForPG = values => {
 				return {key, type: `${type}[]`, value}
 			}
 
-			return {key, type: 'list', value: UNDEFINED_VALUE}
+			return UNDEFINED_VALUE
 		}
 
 		if (typeof localValue === 'undefined') {
