@@ -195,3 +195,13 @@ test('stringFormat invalid config email', t => {
 	}
 })
 
+test('stringFormat invalid config test', t => {
+	try {
+		stringFormat({test: 1})
+		t.end('no error')
+	} catch (e) {
+		schema.test(t, e.message, 'Format configuration error. "test" param has invalid value "1". Expected false or RegExp, found "1".')
+		t.end()
+	}
+})
+

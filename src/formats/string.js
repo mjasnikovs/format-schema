@@ -46,7 +46,8 @@ const defaultConfig = {
 	enum: false,
 	min: false,
 	max: false,
-	email: false
+	email: false,
+	test: false
 }
 
 const stringFormat = (value, config, outputType) => {
@@ -99,6 +100,12 @@ const stringFormat = (value, config, outputType) => {
 	if (config.email === true) {
 		if (!isEmail(value)) {
 			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected email, found "${value}".`)
+		}
+	}
+
+	if (config.test !== false) {
+		if (config.test.exec(value) === null) {
+			return new Error(`Format error. "${config.name}" has invalid value "${value}". Expected valid regular expression test (${config.test}), found "${value}".`)
 		}
 	}
 
@@ -223,6 +230,10 @@ module.exports = (options = null) => {
 
 	if (!isBoolean(config.email)) {
 		throw new Error(`Format configuration error. "email" param has invalid value "${config.email}". Expected boolean, found "${config.email}".`)
+	}
+
+	if (config.test !== false && !Boolean(config.test instanceof RegExp)) {
+		throw new Error(`Format configuration error. "test" param has invalid value "${config.test}". Expected false or RegExp, found "${config.test}".`)
 	}
 
 	return (value, outputType = OUTPUT_FORMAT_TYPE_OBJECT) =>

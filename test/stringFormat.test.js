@@ -144,3 +144,14 @@ test('stringFormat capitalize "first"', t => {
 	schema.test(t, 'String. string.', stringFormat({capitalize: 'first'})('string. string.'))
 	t.end()
 })
+
+test('stringFormat test fail', t => {
+	const e = stringFormat({test: /aaa/})('bbb')
+	schema.test(t, e.message, `Format error. "${NAMESPACE_DEFAULT_NAME}" has invalid value "bbb". Expected valid regular expression test (/aaa/), found "bbb".`)
+	t.end()
+})
+
+test('stringFormat test pass', t => {
+	schema.test(t, 'aaa', stringFormat({test: /aaa/})('aaa'))
+	t.end()
+})
