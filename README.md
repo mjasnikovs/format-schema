@@ -12,12 +12,12 @@ npm install --save format-schema
 
 ```javascript
 const {
-	format,
-	promiseFormat,
-	stringFormat,
-	integerFormat,
-	floatFormat,
-	booleanFormat
+    format,
+    promiseFormat,
+    stringFormat,
+    integerFormat,
+    floatFormat,
+    booleanFormat
 } = require('format-schema')
 
 ```
@@ -34,14 +34,14 @@ const stringTest = stringFormat({capitalize: 'words'})
 // const result = stringFormat({capitalize: 'words'})('edgars')
 
 module.exports = string => {
-	const result = stringTest('edgars')
+    const result = stringTest('edgars')
 
-	if (result instanceof Error) {
-		return new Error(result)
-	}
+    if (result instanceof Error) {
+        return new Error(result)
+    }
 
-	// Edgars
-	return result
+    // Edgars
+    return result
 }
 ```
 
@@ -52,30 +52,30 @@ module.exports = string => {
 // After initialization, format test can be reused.
 
 const formatTest = format({
-	name: stringFormat({capitalize: 'words', min: 2, max: 20, trim: true, notEmpty: true}),
-	age: integerFormat({min: 18, max: 99, notEmpty: true}),
-	friends: [integerFormat({naturalNumber: true, notZero: true})]
+    name: stringFormat({capitalize: 'words', min: 2, max: 20, trim: true, notEmpty: true}),
+    age: integerFormat({min: 18, max: 99, notEmpty: true}),
+    friends: [integerFormat({naturalNumber: true, notZero: true})]
 })
 
 // {
-// 	name: ' edgars ',
-// 	age: 19,
-// 	friends: [10, 11, 12]
+//  name: ' edgars ',
+//  age: 19,
+//  friends: [10, 11, 12]
 // }
 
 module.exports = inputs => {
-	const result = formatTest(inputs)
+    const result = formatTest(inputs)
 
-	if (result instanceof) {
-		return new Error(result)
-	}
+    if (result instanceof) {
+        return new Error(result)
+    }
 
-	// {
-	// 	name: 'Edgars',
-	// 	age: 19,
-	// 	friends: [10, 11, 12]
-	// }
-	return result
+    // {
+    //  name: 'Edgars',
+    //  age: 19,
+    //  friends: [10, 11, 12]
+    // }
+    return result
 }
 
 ```
@@ -88,7 +88,7 @@ module.exports = inputs => {
 const result = formatTest(inputs)
 
 if (result instanceof) {
-	return new Error(result)
+    return new Error(result)
 }
 
 ```
@@ -99,22 +99,22 @@ if (result instanceof) {
 const stringTest = stringFormat({capitalize: 'words'})
 
 // sanitize
-trim, 			// trim string [boolean]
-trimLeft, 		// trim string from left side [boolean]
-trimRight, 		// trim string from right side [boolean]
-toLowerCase, 	// mutate string character to lower case [boolean]
-toUpperCase, 	// mutate string character to upper case [boolean]
-truncate, 		// truncate strings lenght to specific lenght [integer]
-capitalize,		// capitalize string ['words', 'sentences', 'first']
+trim,           // trim string [boolean]
+trimLeft,       // trim string from left side [boolean]
+trimRight,      // trim string from right side [boolean]
+toLowerCase,    // mutate string character to lower case [boolean]
+toUpperCase,    // mutate string character to upper case [boolean]
+truncate,       // truncate strings lenght to specific lenght [integer]
+capitalize,     // capitalize string ['words', 'sentences', 'first']
 
 // validate
-notUndef,		// typeof undefined not allowed [boolean]
-notEmpty,		// typeof undefined, null, ''(empty string) not allowed [boolean]
-enum,			// An array of valid strings, example ['Cat', 'Dog', 'Apple'] [array:<string>]
-min,			// requirement for minimum strings length [integer]
-max,			// requirement for maximum strings length [integer]
-email,			// regExp test for basic email format [boolean], use with ({trim: true, toLowerCase: true})
-test			// manual regExp test, example (stringFormat({test: /aaa/}))
+notUndef,       // typeof undefined not allowed [boolean]
+notEmpty,       // typeof undefined, null, ''(empty string) not allowed [boolean]
+enum,           // An array of valid strings, example ['Cat', 'Dog', 'Apple'] [array:<string>]
+min,            // requirement for minimum strings length [integer]
+max,            // requirement for maximum strings length [integer]
+email,          // regExp test for basic email format [boolean], use with ({trim: true, toLowerCase: true})
+test            // manual regExp test, example (stringFormat({test: /aaa/}))
 ```
 
 ## Integer format configuration
@@ -123,13 +123,13 @@ test			// manual regExp test, example (stringFormat({test: /aaa/}))
 const integerTest = integerFormat({naturalNumber: true})
 
 // validate
-notUndef,		// typeof undefined not allowed [boolean]
-notEmpty,		// typeof undefined, null, ''(empty string) not allowed [boolean]
-notZero,		// 0 not allowed
-naturalNumber,	// 0, 1, 2, etc... allowed
-enum,			// An array of valid integer, example [1, 2, 3] [array:<integer>]
-min,			// minimum value
-max				// maximum value
+notUndef,       // typeof undefined not allowed [boolean]
+notEmpty,       // typeof undefined, null, ''(empty string) not allowed [boolean]
+notZero,        // 0 not allowed
+naturalNumber,  // 0, 1, 2, etc... allowed
+enum,           // An array of valid integer, example [1, 2, 3] [array:<integer>]
+min,            // minimum value
+max             // maximum value
 ```
 
 ## Float format configuration
@@ -138,16 +138,16 @@ max				// maximum value
 const floatTest = floatFormat({naturalNumber: 'words'})
 
 // validate
-notUndef,		// typeof undefined not allowed [boolean]
-notEmpty,		// typeof undefined, null, ''(empty string) not allowed [boolean]
-notZero,		// 0 not allowed
-naturalNumber,	// 0, 1, 2, etc... allowed
-enum,			// An array of valid floats, example [1.1, 2.1, 3.1] [array:<float>]
-min,			// minimum value
-max,			// maximum value
-positive,		// positive float required
-latitude,		// latitude required
-longitude		// longitude required		
+notUndef,       // typeof undefined not allowed [boolean]
+notEmpty,       // typeof undefined, null, ''(empty string) not allowed [boolean]
+notZero,        // 0 not allowed
+naturalNumber,  // 0, 1, 2, etc... allowed
+enum,           // An array of valid floats, example [1.1, 2.1, 3.1] [array:<float>]
+min,            // minimum value
+max,            // maximum value
+positive,       // positive float required
+latitude,       // latitude required
+longitude       // longitude required       
 ```
 
 ## Boolean format configuration
@@ -156,6 +156,6 @@ longitude		// longitude required
 const booleanTest = booleanFormat({notEmpty: true})
 
 // validate
-notUndef,		// typeof undefined not allowed [boolean]
-notEmpty,		// typeof undefined, null, ''(empty string) not allowed [boolean]	
+notUndef,       // typeof undefined not allowed [boolean]
+notEmpty,       // typeof undefined, null, ''(empty string) not allowed [boolean]   
 ```
