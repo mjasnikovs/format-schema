@@ -47,6 +47,9 @@ const integerFormat = (value, config, outputType) => {
 
 	if (config.notEmpty === false) {
 		if (value === null) {
+			if (outputType === OUTPUT_FORMAT_TYPE_PG) {
+				return {type: config.pgType, value: null}
+			}
 			return null
 		}
 	}

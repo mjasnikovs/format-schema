@@ -18,7 +18,11 @@ const formatTest = postgresFormat({
 	integerList: [integerFormat()],
 	floatList: [floatFormat()],
 	booleanList: [booleanFormat()],
-	undefinedList: [stringFormat()]
+	undefinedList: [stringFormat()],
+	stringNullTest: stringFormat(),
+	integerNullTest: integerFormat(),
+	floatNullTest: floatFormat(),
+	booleanNullTest: booleanFormat()
 })
 
 const inputObject = {
@@ -29,7 +33,12 @@ const inputObject = {
 	stringList: ['list'],
 	integerList: [10],
 	floatList: [10.1],
-	booleanList: [true]
+	booleanList: [true],
+	stringNullTest: null,
+	integerNullTest: null,
+	floatNullTest: null,
+	booleanNullTest: null
+
 }
 
 const outputObject = [
@@ -40,7 +49,11 @@ const outputObject = [
 	{key: 'stringList', type: 'text[]', value: ['list']},
 	{key: 'integerList', type: 'int[]', value: [10]},
 	{key: 'floatList', type: 'numeric[]', value: [10.1]},
-	{key: 'booleanList', type: 'boolean[]', value: [true]}
+	{key: 'booleanList', type: 'boolean[]', value: [true]},
+	{key: 'stringNullTest', type: 'text', value: null},
+	{key: 'integerNullTest', type: 'int', value: null},
+	{key: 'floatNullTest', type: 'numeric', value: null},
+	{key: 'booleanNullTest', type: 'boolean', value: null}
 ]
 
 test('postgresFormat success', t => {
