@@ -91,7 +91,7 @@ test('floatFormat notZero pass', t => {
 
 test('floatFormat positive fail', t => {
 	const e = floatFormat({positive: true})(-1)
-	schema.test(t, e.message, `Format error. "${NAMESPACE_DEFAULT_NAME}" has invalid value "-1". Expected positve float, found "-1".`)
+	schema.test(t, e.message, `Format error. "${NAMESPACE_DEFAULT_NAME}" has invalid value "-1". Expected positive float, found "-1".`)
 	t.end()
 })
 

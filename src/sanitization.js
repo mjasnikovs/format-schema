@@ -1,34 +1,28 @@
-const trim = input => input.trim()
-
-const trimLeft = input => input.trimLeft()
-
-const trimRight = input => input.trimRight()
-
-const toLowerCase = input => input.toLowerCase()
-
-const toUpperCase = input => input.toUpperCase()
-
-const truncate = (input, n) => String(input).slice(0, n)
-
-const wordRegex = /(?:^|\s)\S/g
-const sentenceRegex = /(?:^|\.\s)\S/g
-
-const capitalize = (input, type) => {
-	if (type === 'words') {
-		return input.replace(wordRegex, s => s.toUpperCase())
-	} else if (type === 'sentences') {
-		return input.replace(sentenceRegex, s => s.toUpperCase())
-	} else if (type === 'first') {
-		return input[0].toUpperCase() + input.slice(1)
-	}
-}
-
-module.exports = {
-	trim,
-	trimLeft,
-	trimRight,
-	toLowerCase,
-	toUpperCase,
-	truncate,
-	capitalize
-}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.trim = input => input.trim();
+exports.trimLeft = input => input.trimLeft();
+exports.trimRight = input => input.trimRight();
+exports.toLowerCase = input => input.toLowerCase();
+exports.toUpperCase = input => input.toUpperCase();
+exports.truncate = (input, n) => String(input).slice(0, n);
+exports.wordRegex = /(?:^|\s)\S/g;
+exports.sentenceRegex = /(?:^|\.\s)\S/g;
+var capitalizeConst;
+(function (capitalizeConst) {
+    capitalizeConst["words"] = "words";
+    capitalizeConst["sentences"] = "sentences";
+    capitalizeConst["first"] = "first";
+})(capitalizeConst = exports.capitalizeConst || (exports.capitalizeConst = {}));
+exports.capitalize = (input, type) => {
+    if (type === capitalizeConst.words) {
+        return input.replace(exports.wordRegex, s => s.toUpperCase());
+    }
+    else if (type === capitalizeConst.sentences) {
+        return input.replace(exports.sentenceRegex, s => s.toUpperCase());
+    }
+    else if (type === capitalizeConst.first) {
+        return input[0].toUpperCase() + input.slice(1);
+    }
+    return input;
+};

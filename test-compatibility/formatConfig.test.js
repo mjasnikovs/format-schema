@@ -1,14 +1,16 @@
 const test = require('tape')
 const schema = require('tape-schema')
 
-const format = require('../src/format')
+const {
+	format
+} = require('../src')
 
 test('format schema error undefined', t => {
 	try {
 		format()
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected object or array, found "undefined".')
+		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected function, found "undefined".')
 		t.end()
 	}
 })
@@ -18,7 +20,7 @@ test('format schema error non-object or array', t => {
 		format(1)
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected object or array, found "1".')
+		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected function, found "1".')
 		t.end()
 	}
 })
@@ -48,7 +50,7 @@ test('format schema error wrong object', t => {
 		format({error: 1})
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected functions, found "1".')
+		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected function, found "1".')
 		t.end()
 	}
 })
@@ -58,7 +60,7 @@ test('format schema error wrong array', t => {
 		format([1])
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected functions, found "1".')
+		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected function, found "1".')
 		t.end()
 	}
 })
@@ -68,7 +70,7 @@ test('format schema error wrong deep object', t => {
 		format([{error: 1}])
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected functions, found "1".')
+		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected function, found "1".')
 		t.end()
 	}
 })
@@ -78,7 +80,7 @@ test('format schema error wrong deep-deep object', t => {
 		format([[{error: 1}]])
 		t.end('no error')
 	} catch (e) {
-		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected functions, found "1".')
+		schema.test(t, e.message, 'Format schema error. Configuration is invalid. Expected function, found "1".')
 		t.end()
 	}
 })

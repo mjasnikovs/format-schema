@@ -93,7 +93,7 @@ test('format object fail float', t => {
 
 	const result = formatTest(inputs)
 
-	schema.test(t, result.message, 'Format error. "float" has invalid value "-10". Expected positve float, found "-10".')
+	schema.test(t, result.message, 'Format error. "float" has invalid value "-10". Expected positive float, found "-10".')
 
 	t.end()
 })

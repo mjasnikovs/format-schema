@@ -4,7 +4,9 @@
   "description": "object input validation and sanitization",
   "main": "./src/index.js",
   "scripts": {
-    "test": "tape ./test/**/*.test.js | tap-spec"
+    "compile": "npx tsc -p tsconfig.json",
+    "test": "npx tsc -p tsconfig.json && tape ./test/**/*.test.js",
+    "test-compatibility": "npx tsc -p tsconfig.json && tape ./test-compatibility/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -17,12 +19,13 @@
   },
   "homepage": "https://github.com/mjasnikovs/format-schema#readme",
   "devDependencies": {
-    "babel-eslint": "7.2.3",
-    "eslint": "4.5.0",
-    "eslint-plugin-babel": "4.1.2",
-    "graphql": "0.11.2",
-    "tap-spec": "4.1.1",
+    "@types/tape": "^4.2.33",
+    "nodemon": "1.18.10",
     "tape": "4.8.0",
-    "tape-schema": "1.1.4"
+    "tape-schema": "^1.1.4",
+    "tslint": "5.14.0"
+  },
+  "dependencies": {
+    "typescript": "3.3.3333"
   }
 }

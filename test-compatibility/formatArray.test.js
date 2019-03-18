@@ -118,7 +118,7 @@ test('format missing string array sucess', t => {
 
 	const result = formatTest(inputs)
 
-	schema.test(t, {stringArray: schema.undef}, result)
+	schema.test(t, {stringArray: []}, result)
 
 	t.end()
 })
