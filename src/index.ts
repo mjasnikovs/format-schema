@@ -17,7 +17,8 @@ export {
 	isMinNumber,
 	isMaxString,
 	isMinString,
-	inEnum
+	inEnum,
+	isConstructor
 } from './validators'
 
 export {
@@ -45,3 +46,11 @@ export {
 export {
 	promiseFormat
 } from './promiseFormat'
+
+export {
+	postgresFormat
+} from './postgresFormat'
+
+export {
+	postgresPromiseFormat	
+} from './postgresPromiseFormat'

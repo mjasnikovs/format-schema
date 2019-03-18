@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	inEnum
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isnEnum', t => {
 	t.true(inEnum(2, [1, 2]), 'number true')

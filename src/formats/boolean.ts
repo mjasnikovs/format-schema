@@ -1,6 +1,10 @@
-const {
-	NAMESPACE_DEFAULT_NAME
-} = require('../types')
+import {
+	NAMESPACE_DEFAULT_NAME,
+	IFormatInputOptions,
+	defaultFormatOptions,
+	postgresDataTypes,
+	IPgOutputType
+} from '../types'
 
 import {
 	isUndefined,
@@ -13,7 +17,8 @@ import {
 interface IBooleanOptions {
 	// validate
 	notUndef?: boolean,
-	notEmpty?: boolean
+	notEmpty?: boolean,
+	pgType?: postgresDataTypes
 }
 
 interface IBooleanConfig extends IBooleanOptions {
@@ -26,38 +31,61 @@ const defaultBooleanOptions: IBooleanConfig = {
 
 	// validate
 	notUndef: false,
-	notEmpty: false
+	notEmpty: false,
+	pgType: 'boolean'
 }
 
 const booleanTest = (
 	value: any,
 	config: IBooleanConfig,
-	namespace?: string
-): null | undefined | Error | boolean => {
+	options: IFormatInputOptions = defaultFormatOptions
+): null | undefined | Error | boolean | IPgOutputType=> {
 	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
+			if (options.outputType === 'POSTGRES') {
+				return {
+					value: undefined,
+					key: options.key,
+					type: config.pgType
+				}
+			}
 			return
 		}
 	}
 
 	if (config.notUndef === true) {
 		if (isUndefined(value)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected boolean, found undefined value.`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected boolean, found undefined value.`)
 		}
 	}
 
 	if (config.notEmpty === false && value === null) {
+		if (options.outputType === 'POSTGRES') {
+			return {
+				value: null,
+				key: options.key,
+				type: config.pgType
+			}
+		}
 		return null
 	}
 
 	if (config.notEmpty === true) {
 		if (isEmpty(value)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected non-empty boolean, found "${value}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected non-empty boolean, found "${value}".`)
 		}
 	}
 
 	if (!isBoolean(value)) {
-		return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected boolean, found "${value}".`)
+		return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected boolean, found "${value}".`)
+	}
+
+	if (options.outputType === 'POSTGRES') {
+		return {
+			value,
+			key: options.key,
+			type: config.pgType
+		}
 	}
 
 	return value
@@ -88,6 +116,6 @@ export default (options?: IBooleanOptions) => {
 		throw new Error(`Format configuration error. "notEmpty" param has invalid value "${config.notEmpty}". Expected boolean, found "${config.notEmpty}".`)
 	}
 
-	return (value: any, namespace?: string) =>
-		booleanTest(value, config, namespace)
+	return (value: any, privateOptions: IFormatInputOptions) =>
+		booleanTest(value, config, privateOptions)	
 }

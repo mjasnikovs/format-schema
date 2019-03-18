@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isObject
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isObject', t => {
 	t.true(isObject({}), 'Object')

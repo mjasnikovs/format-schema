@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isString
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isString', t => {
 	t.true(isString(''), 'emptyString')

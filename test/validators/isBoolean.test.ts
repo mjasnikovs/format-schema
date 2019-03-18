@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isBoolean
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isBoolean', t => {
 	t.true(isBoolean(true), 'true')

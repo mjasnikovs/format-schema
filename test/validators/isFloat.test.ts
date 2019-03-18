@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isFloat
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isFloat', t => {
 	t.true(isFloat(0), 'zero')

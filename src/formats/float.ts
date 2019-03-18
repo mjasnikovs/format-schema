@@ -14,7 +14,11 @@ import {
 } from '../validators'
 
 import {
-	NAMESPACE_DEFAULT_NAME
+	NAMESPACE_DEFAULT_NAME,
+	IFormatInputOptions,
+	defaultFormatOptions,
+	postgresDataTypes,
+	IPgOutputType
 } from '../types'
 
 interface IFloatOptions {
@@ -27,7 +31,8 @@ interface IFloatOptions {
 	max?: number | false,
 	positive?: boolean,
 	latitude?: number | false,
-	longitude?: number | false
+	longitude?: number | false,
+	pgType?: postgresDataTypes
 }
 
 interface IFloatConfig extends IFloatOptions {
@@ -46,97 +51,104 @@ const defaultFloatOptions: IFloatConfig = {
 	max: false,
 	positive: false,
 	latitude: false,
-	longitude: false
-}
-
-const defaultConfig = {
-	name: NAMESPACE_DEFAULT_NAME,
-	pgType: 'numeric',
-
-	// validate
-	notUndef: false,
-	notEmpty: false,
-	notZero: false,
-	enum: false,
-	min: false,
-	max: false,
-	positive: false,
-	latitude: false,
-	longitude: false
+	longitude: false,
+	pgType: 'numeric'
 }
 
 const floatTest = (
 	value: any,
 	config: IFloatConfig,
-	namespace?: string
-): null | undefined | Error | number => {
+	options: IFormatInputOptions = defaultFormatOptions
+): null | undefined | Error | number | IPgOutputType=> {
 	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
+			if (options.outputType === 'POSTGRES') {
+				return {
+					value: undefined,
+					key: options.key,
+					type: config.pgType
+				}
+			}
 			return
 		}
 	}
 
 	if (config.notUndef === true) {
 		if (isUndefined(value)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected float, found undefined value.`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected float, found undefined value.`)
 		}
 	}
 
 	if (config.notEmpty === false && value === null) {
+		if (options.outputType === 'POSTGRES') {
+			return {
+				value: null,
+				key: options.key,
+				type: config.pgType
+			}
+		}
 		return null
 	}
 
 	if (config.notEmpty === true) {
 		if (isEmpty(value)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected non-empty float, found "${value}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected non-empty float, found "${value}".`)
 		}
 	}
 
 	const float = typeof value === 'number' ? value : Number(value)
 
 	if (!isFloat(float)) {
-		return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected float, found "${float}".`)
+		return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected float, found "${float}".`)
 	}
 
 	if (config.notZero === true) {
 		if (isZero(float)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected non-zero float, found "${float}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected non-zero float, found "${float}".`)
 		}
 	}
 
 	if (config.enum !== false && typeof config.enum !== 'undefined') {
 		if (!inEnum(float, config.enum)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected one of float values "${config.enum}", found "${float}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected one of float values "${config.enum}", found "${float}".`)
 		}
 	}
 
 	if (config.max !== false && typeof config.max !== 'undefined') {
 		if (!isMaxNumber(float, config.max)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected maximal value "${config.max}", found "${float}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected maximal value "${config.max}", found "${float}".`)
 		}
 	}
 
 	if (config.min !== false && typeof config.min !== 'undefined') {
 		if (!isMinNumber(float, config.min)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected minimal value "${config.min}", found "${float}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected minimal value "${config.min}", found "${float}".`)
 		}
 	}
 
 	if (config.positive === true) {
 		if (float < 0) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected positive float, found "${float}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected positive float, found "${float}".`)
 		}
 	}
 
 	if (config.latitude === true) {
 		if (!isLatitude(float)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected latitude, found "${float}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected latitude, found "${float}".`)
 		}
 	}
 
 	if (config.longitude === true) {
 		if (!isLongitude(float)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${float}". Expected longitude, found "${float}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${float}". Expected longitude, found "${float}".`)
+		}
+	}
+
+	if (options.outputType === 'POSTGRES') {
+		return {
+			value: float,
+			key: options.key,
+			type: config.pgType
 		}
 	}
 
@@ -204,6 +216,6 @@ export default (options?: IFloatOptions) => {
 		throw new Error(`Format configuration error. "longitude" param has invalid value "${config.longitude}". Expected boolean, found "${config.longitude}".`)
 	}
 
-	return (value: any, namespace?: string) =>
-		floatTest(value, config, namespace)
+	return (value: any, privateOptions: IFormatInputOptions) =>
+		floatTest(value, config, privateOptions)
 }

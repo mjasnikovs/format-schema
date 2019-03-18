@@ -6,6 +6,7 @@ import {
 
 test('validators => isZero', t => {
 	t.true(isZero(0), 'zero')
+	t.true(isZero(-0), 'zero minus')
 
 	t.false(isZero(undefined), 'undefined')
 	t.false(isZero(null), 'null')
@@ -17,7 +18,7 @@ test('validators => isZero', t => {
 	t.false(isZero(Infinity), 'Infinity')
 	t.false(isZero(true), 'true')
 	t.false(isZero(false), 'false')
-	t.false(isZero(-0), 'zero minus')
+	
 	t.false(isZero([]), 'Array')
 	t.false(isZero({}), 'Object')
 	t.false(isZero(new Date()), 'Date')

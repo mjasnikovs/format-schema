@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isUndefined
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isUndefined', t => {
 	t.true(isUndefined(undefined), 'undefined')

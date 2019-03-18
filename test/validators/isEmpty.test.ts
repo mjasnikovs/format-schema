@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isEmpty
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isEmpty', t => {
 	t.true(isEmpty(undefined), 'undefined')

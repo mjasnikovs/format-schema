@@ -15,7 +15,11 @@ import {
 } from '../validators'
 
 import {
-	NAMESPACE_DEFAULT_NAME
+	NAMESPACE_DEFAULT_NAME,
+	IFormatInputOptions,
+	defaultFormatOptions,
+	postgresDataTypes,
+	IPgOutputType
 } from '../types'
 
 interface IIntegerOptions {
@@ -29,7 +33,8 @@ interface IIntegerOptions {
 	positive?: boolean,
 	naturalNumber?: boolean,
 	latitude?: number | false,
-	longitude?: number | false
+	longitude?: number | false,
+	pgType?: postgresDataTypes
 }
 
 interface IIntegerConfig extends IIntegerOptions {
@@ -49,85 +54,108 @@ const defaultIntegerOptions: IIntegerConfig = {
 	positive: false,
 	naturalNumber: false,
 	latitude: false,
-	longitude: false
+	longitude: false,
+	pgType: 'int'
 }
 
 const integerTest = (
 	value: any,
 	config: IIntegerConfig,
-	namespace?: string
-): null | undefined | Error | number => {
+	options: IFormatInputOptions = defaultFormatOptions
+): null | undefined | Error | number | IPgOutputType => {
 	if (config.notUndef === false && config.notEmpty === false) {
 		if (typeof value === 'undefined') {
+			if (options.outputType === 'POSTGRES') {
+				return {
+					value: undefined,
+					key: options.key,
+					type: config.pgType
+				}
+			}
 			return
 		}
 	}
 
 	if (config.notUndef === true) {
 		if (isUndefined(value)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected integer, found undefined value.`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected integer, found undefined value.`)
 		}
 	}
 
 	if (config.notEmpty === false && value === null) {
+		if (options.outputType === 'POSTGRES') {
+			return {
+				value: null,
+				key: options.key,
+				type: config.pgType
+			}
+		}
 		return null
 	}
 
 	if (config.notEmpty === true && isEmpty(value)) {
-		return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected non-empty integer, found "${value}".`)
+		return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected non-empty integer, found "${value}".`)
 	}
 
 	const integer = typeof value === 'number' ? value : Number(value)
 
 	if (!isInteger(integer)) {
-		return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected integer, found "${integer}".`)
+		return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected integer, found "${integer}".`)
 	}
 
 	if (config.naturalNumber === true) {
 		if (!isNaturalNumber(integer)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected natural number, found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected natural number, found "${integer}".`)
 		}
 	}
 
 	if (config.notZero === true) {
 		if (isZero(integer)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected non-zero integer, found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected non-zero integer, found "${integer}".`)
 		}
 	}
 
 	if (config.enum !== false && typeof config.enum !== 'undefined') {
 		if (!inEnum(integer, config.enum)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected one of integer values "${config.enum}", found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected one of integer values "${config.enum}", found "${integer}".`)
 		}
 	}
 
 	if (config.max !== false && typeof config.max !== 'undefined') {
 		if (!isMaxNumber(integer, config.max)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected maximal value "${config.max}", found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected maximal value "${config.max}", found "${integer}".`)
 		}
 	}
 
 	if (config.min !== false && typeof config.min !== 'undefined') {
 		if (!isMinNumber(integer, config.min)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected minimal value "${config.min}", found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected minimal value "${config.min}", found "${integer}".`)
 		}
 	}
 
 	if (config.positive === true) {
 		if (integer < 0) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected positive float, found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected positive float, found "${integer}".`)
 		}
 	}
 
 	if (config.latitude === true) {
 		if (!isLatitude(integer)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected latitude, found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected latitude, found "${integer}".`)
 		}
 	}
 
 	if (config.longitude === true) {
 		if (!isLongitude(integer)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${integer}". Expected longitude, found "${integer}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${integer}". Expected longitude, found "${integer}".`)
+		}
+	}
+
+	if (options.outputType === 'POSTGRES') {
+		return {
+			value: integer,
+			key: options.key,
+			type: config.pgType
 		}
 	}
 
@@ -199,6 +227,6 @@ export default (options?: IIntegerOptions) => {
 		throw new Error(`Format configuration error. "longitude" param has invalid value "${config.longitude}". Expected boolean, found "${config.longitude}".`)
 	}
 
-	return (value: any, namespace?: string) =>
-		integerTest(value, config, namespace)
+	return (value: any, privateOptions: IFormatInputOptions) =>
+		integerTest(value, config, privateOptions)
 }

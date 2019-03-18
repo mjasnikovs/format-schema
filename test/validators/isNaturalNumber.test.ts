@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isNaturalNumber
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isNaturalNumber', t => {
 	t.true(isNaturalNumber(1), 'integer')

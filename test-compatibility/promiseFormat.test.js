@@ -52,3 +52,19 @@ test('promiseFormat fail', async t => {
 		t.end()
 	}
 })
+
+test('postgresPromiseFormat error class constructor', async t => {
+	class CustomError extends Error {
+		someCustomFunction() {}
+	}
+
+	const test = promiseFormat(stringFormat({notEmpty: true}), CustomError)
+
+	try {
+		const result = await test(null)
+		t.end('no-error')
+	} catch(e) {
+		t.equal(typeof e.someCustomFunction, 'function')
+		t.end()
+	}
+})

@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isInteger
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isInteger', t => {
 	t.true(isInteger(1), 'integer')

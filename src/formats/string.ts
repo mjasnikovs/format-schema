@@ -26,7 +26,11 @@ import {
 } from '../sanitization'
 
 import {
-	NAMESPACE_DEFAULT_NAME
+	NAMESPACE_DEFAULT_NAME,
+	IFormatInputOptions,
+	defaultFormatOptions,
+	IPgOutputType,
+	postgresDataTypes
 } from '../types'
 
 interface IStringOptions {
@@ -46,7 +50,8 @@ interface IStringOptions {
 	min?: number | false,
 	max?: number | false,
 	email?: boolean,
-	test?: RegExp | false
+	test?: RegExp | false,
+	pgType?: postgresDataTypes
 }
 
 interface IStringConfig extends IStringOptions {
@@ -73,62 +78,77 @@ const defaultStringOptions: IStringConfig = {
 	min: false,
 	max: false,
 	email: false,
-	test: false
+	test: false,
+	pgType: 'text'
 }
 
 const stringTest = (
 	value: any,
 	config: IStringConfig,
-	namespace?: string
-): null | undefined | Error | string => {
+	options: IFormatInputOptions = defaultFormatOptions
+): null | undefined | Error | string | IPgOutputType => {
 	if (config.notUndef === false && config.notEmpty === false && typeof value === 'undefined') {
+		if (options.outputType === 'POSTGRES') {
+			return {
+				value: undefined,
+				key: options.key,
+				type: config.pgType
+			}
+		}
 		return
 	}
 
 	if (config.notUndef === true && isUndefined(value)) {
-		return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected string, found undefined value.`)
+		return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected string, found undefined value.`)
 	}
 
 	if (config.notEmpty === false && value === null) {
+		if (options.outputType === 'POSTGRES') {
+			return {
+				value: null,
+				key: options.key,
+				type: config.pgType
+			}
+		}
 		return null
 	}
 
 	if (config.notEmpty === true && isEmpty(value)) {
-		return new Error(`Format error. "${namespace|| config.name}" has invalid value "${value}". Expected non-empty string, found "${value}".`)
+		return new Error(`Format error. "${options.namespace|| config.name}" has invalid value "${value}". Expected non-empty string, found "${value}".`)
 	}
 
 	if (!isString(value)) {
-		return new Error(`Format error. "${namespace|| config.name}" has invalid value "${value}". Expected string, found "${value}".`)
+		return new Error(`Format error. "${options.namespace|| config.name}" has invalid value "${value}". Expected string, found "${value}".`)
 	}
 
 
 	if (config.max !== false && typeof config.max !== 'undefined') {
 		if (!isMaxString(value, config.max)) {
-			return new Error(`Format error. "${namespace|| config.name}" has invalid value "${value}". Expected maximal length of "${config.max}" characters, found "${value.length}" characters.`)
+			return new Error(`Format error. "${options.namespace|| config.name}" has invalid value "${value}". Expected maximal length of "${config.max}" characters, found "${value.length}" characters.`)
 		}
 	}
 
 	if (config.min !== false && typeof config.min !== 'undefined') {
 		if (!isMinString(value, config.min)) {
-			return new Error(`Format error. "${namespace|| config.name}" has invalid value "${value}". Expected minimal length of "${config.min}" characters, found "${value.length}" characters.`)
+			return new Error(`Format error. "${options.namespace|| config.name}" has invalid value "${value}". Expected minimal length of "${config.min}" characters, found "${value.length}" characters.`)
 		}
 	}
 
 	if (config.enum !== false && typeof config.enum !== 'undefined') {
 		if (!inEnum(value, config.enum)) {
-			return new Error(`Format error. "${namespace|| config.name}" has invalid value "${value}". Expected one of string values "${config.enum}", found "${value}".`)
+			return new Error(`Format error. "${options.namespace|| config.name}" has invalid value "${value}". Expected one of string values "${config.enum}", found "${value}".`)
 		}
 	}
 
 	if (config.email === true) {
 		if (!isEmail(value)) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected email, found "${value}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected email, found "${value}".`)
 		}
 	}
 
 	if (config.test !== false && typeof config.test !== 'undefined') {
 		if (config.test.exec(value) === null) {
-			return new Error(`Format error. "${namespace || config.name}" has invalid value "${value}". Expected valid regular expression test (${config.test}), found "${value}".`)
+			return new Error(`Format error. "${options.namespace || config.name}" has invalid value "${value}". Expected valid regular expression test (${config.test}), found "${value}".`)
 		}
 	}
 
@@ -160,6 +180,14 @@ const stringTest = (
 
 	if (config.capitalize) {
 		string = capitalize(string, config.capitalize)
+	}
+
+	if (options.outputType === 'POSTGRES') {
+		return {
+			value: string,
+			key: options.key,
+			type: config.pgType
+		}
 	}
 
 	return string
@@ -250,6 +278,6 @@ export default (options?: IStringOptions) => {
 		throw new Error(`Format configuration error. "test" param has invalid value "${config.test}". Expected false or RegExp, found "${config.test}".`)
 	}
 
-	return (value: any, namespace?: string) =>
-		stringTest(value, config, namespace)
+	return (value: any, privateOptions: IFormatInputOptions) =>
+		stringTest(value, config, privateOptions)
 }

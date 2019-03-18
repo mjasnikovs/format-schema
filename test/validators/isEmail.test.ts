@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isEmail
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isEmail', t => {
 	t.true(isEmail('test@test.com'), 'test@test.com')

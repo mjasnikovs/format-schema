@@ -2,7 +2,16 @@ import {
 	isObject
 } from './validators'
 
-const validateInputs = (schema: any, input: any, namespace?: string): any | Error => {
+import {
+	IFormatInputOptions,
+	defaultFormatOptions
+} from './types'
+
+const validateInputs = (
+	schema: any,
+	input: any,
+	options: IFormatInputOptions = defaultFormatOptions
+): any | Error => {
 	if (Array.isArray(schema)) {
 		if (schema.length === 1) {
 			if (Array.isArray(input)) {
@@ -10,7 +19,11 @@ const validateInputs = (schema: any, input: any, namespace?: string): any | Erro
 					const result = validateInputs(
 						schema[0],
 						undefined,
-						namespace ? `${namespace}[0]` : `[0]`
+						{
+							...options,
+							namespace: options.namespace ? `${options.namespace}[0]` : `[0]`,
+							key: 0
+						}
 					)
 
 					if (result instanceof Error) {
@@ -24,7 +37,11 @@ const validateInputs = (schema: any, input: any, namespace?: string): any | Erro
 					const result = validateInputs(
 						schema[0],
 						input[index] || undefined,
-						namespace ? `${namespace}[${index}]` : `[${index}]`
+						{
+							...options,
+							namespace: options.namespace ? `${options.namespace}[${index}]` : `[${index}]`,
+							key: index
+						}
 					)
 
 					if (result instanceof Error) {
@@ -40,11 +57,11 @@ const validateInputs = (schema: any, input: any, namespace?: string): any | Erro
 			const result = validateInputs(
 				schema[0],
 				undefined,
-				namespace
+				options
 			)
 
 			if (result instanceof Error) {
-				return new Error(`Format error. "${namespace}" has invalid value "${input}". Expected array, found "${input}".`)
+				return new Error(`Format error. "${options.namespace}" has invalid value "${input}". Expected array, found "${input}".`)
 			}
 
 			return []	
@@ -54,7 +71,11 @@ const validateInputs = (schema: any, input: any, namespace?: string): any | Erro
 				const result = validateInputs(
 					schema[index],
 					input[index],
-					namespace ? `${namespace}[${index}]` : `[${index}]`
+					{
+						...options,
+						namespace: options.namespace ? `${options.namespace}[${index}]` : `[${index}]`,
+						key: index
+					}
 				)
 
 				if (result instanceof Error) {
@@ -73,7 +94,11 @@ const validateInputs = (schema: any, input: any, namespace?: string): any | Erro
 	if (isObject(schema)) {
 		return Object.keys(schema)
 			.reduce((all: any, key: any, index, output) => {
-				const result = validateInputs(schema[key], input ? input[key] : undefined, key)
+				const result = validateInputs(
+					schema[key],
+					input ? input[key] : undefined,
+					{...options, namespace: key, key}
+				)
 
 				if (result instanceof Error) {
 					output.splice(index) // break;
@@ -85,7 +110,7 @@ const validateInputs = (schema: any, input: any, namespace?: string): any | Erro
 			}, {})
 	}
 
-	return schema(input, namespace)
+	return schema(input, options)
 }
 
 export default validateInputs

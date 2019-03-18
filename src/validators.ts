@@ -79,3 +79,12 @@ export const inEnum = (
 	input: Primitive,
 	array: Primitive[]
 ): boolean => array.indexOf(input) !== -1
+
+export const isConstructor = (value: any): boolean => {
+	try {
+		new new Proxy(value, {construct() {return {}}})
+		return true
+	} catch (err) {
+		return false
+	}
+}

@@ -2,7 +2,7 @@ import test from 'tape'
 
 import {
 	isLongitude
-} from '../../src/index'
+} from '../../src'
 
 test('validators => isLongitude', t => {
 	t.true(isLongitude(1), 'integer')

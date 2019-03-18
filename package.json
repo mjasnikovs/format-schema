@@ -5,7 +5,8 @@
   "main": "./src/index.js",
   "scripts": {
     "compile": "npx tsc -p tsconfig.json",
-    "test": "npx tsc -p tsconfig.json && tape ./test/**/*.test.js",
+    "test": "npm run \"test-new\" && tape ./test-compatibility/**/*.test.js",
+    "test-new": "npx tsc -p tsconfig.json && tape ./test/**/*.test.js",
     "test-compatibility": "npx tsc -p tsconfig.json && tape ./test-compatibility/**/*.test.js"
   },
   "repository": {
