@@ -3,7 +3,7 @@ const schema = require('tape-schema')
 
 const {
 	booleanFormat
-} = require('../src/formats')
+} = require('../dist')
 
 test('booleanFormat invalid type (array) config param', t => {
 	try {

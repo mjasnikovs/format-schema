@@ -3,7 +3,7 @@ const schema = require('tape-schema')
 
 const {
 	integerFormat
-} = require('../src')
+} = require('../dist')
 
 test('integerFormat invalid type (array) config param', t => {
 	try {

@@ -3,11 +3,11 @@ const schema = require('tape-schema')
 
 const {
 	booleanFormat
-} = require('../src/formats')
+} = require('../dist')
 
 const {
 	NAMESPACE_DEFAULT_NAME
-} = require('../src/types')
+} = require('../dist/types')
 
 const fake = {}
 

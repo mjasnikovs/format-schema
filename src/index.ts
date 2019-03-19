@@ -4,6 +4,7 @@ export {
 	isEmpty,
 	notEmpty,
 	isZero,
+	notZero,
 	isEmail,
 	isNaturalNumber,
 	isInteger,

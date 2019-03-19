@@ -9,7 +9,7 @@ const {
 	toUpperCase,
 	truncate,
 	capitalize
-} = require('../src/sanitization')
+} = require('../dist')
 
 test('trim', t => {
 	t.plan(1)

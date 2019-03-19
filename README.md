@@ -25,7 +25,7 @@ const {
 ## Single value test
 
 ```javascript
-// Define test before executing format test, this will ensure tests configuration validity.
+// Define test before executing format test, this will ensure test configuration validity.
 // After initialization, format test can be reused.
 
 const stringTest = stringFormat({capitalize: 'words'})
@@ -43,6 +43,7 @@ module.exports = string => {
     // Edgars
     return result
 }
+
 ```
 
 ## Schema value test

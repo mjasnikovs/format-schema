@@ -16,5 +16,4 @@ nbproject
 dump.rdb
 .env.production
 srcOld
-/src/**/*.js
-/test/**/*.js
+dist

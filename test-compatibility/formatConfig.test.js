@@ -3,7 +3,7 @@ const schema = require('tape-schema')
 
 const {
 	format
-} = require('../src')
+} = require('../dist')
 
 test('format schema error undefined', t => {
 	try {

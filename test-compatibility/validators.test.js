@@ -19,7 +19,7 @@ const {
 	isMinString,
 	inEnum,
 	isObject
-} = require('../src/validators')
+} = require('../dist')
 
 test('notUndef', t => {
 	t.plan(15)

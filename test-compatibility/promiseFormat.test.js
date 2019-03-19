@@ -7,7 +7,7 @@ const {
 	integerFormat,
 	floatFormat,
 	booleanFormat
-} = require('../src')
+} = require('../dist')
 
 const formatTest = promiseFormat({
 	string: stringFormat(),

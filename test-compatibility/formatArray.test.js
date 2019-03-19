@@ -7,7 +7,7 @@ const {
 	integerFormat,
 	floatFormat,
 	booleanFormat
-} = require('../src')
+} = require('../dist')
 
 test('format array success', t => {
 	const formatTest = format([

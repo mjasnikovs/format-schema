@@ -5,7 +5,7 @@ const {
 	format,
 	stringFormat,
 	integerFormat
-} = require('../src/index.js')
+} = require('../dist')
 
 
 test('single value test', t => {

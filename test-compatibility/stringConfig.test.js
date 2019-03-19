@@ -3,7 +3,7 @@ const schema = require('tape-schema')
 
 const {
 	stringFormat
-} = require('../src/formats')
+} = require('../dist')
 
 test('stringFormat invalid type (array) config param', t => {
 	try {

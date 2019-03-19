@@ -3,7 +3,7 @@ const schema = require('tape-schema')
 
 const {
 	floatFormat
-} = require('../src/formats')
+} = require('../dist/formats')
 
 test('floatFormat invalid type (array) config param', t => {
 	try {
