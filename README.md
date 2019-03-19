@@ -5,7 +5,7 @@ Object input validation and sanitization for node.js written in typescript
 ### Installation
 
 ```javascript
-npm install --save-exact format-schema
+npm install --save format-schema
 ```
 
 ## API
