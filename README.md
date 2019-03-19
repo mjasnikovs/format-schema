@@ -1,11 +1,11 @@
 # format-schema [![Build Status](https://travis-ci.org/mjasnikovs/format-schema.svg?branch=master)](https://travis-ci.org/mjasnikovs/format-schema)
 
-Object input validation and sanitization for node.js
+Object input validation and sanitization for node.js written in typescript
 
 ### Installation
 
 ```javascript
-npm install --save format-schema
+npm install --save-exact format-schema
 ```
 
 ## API
@@ -58,6 +58,7 @@ const formatTest = format({
     friends: [integerFormat({naturalNumber: true, notZero: true})]
 })
 
+// input
 // {
 //  name: ' edgars ',
 //  age: 19,
@@ -71,6 +72,7 @@ module.exports = inputs => {
         return new Error(result)
     }
 
+    // output, valid and formatted
     // {
     //  name: 'Edgars',
     //  age: 19,
@@ -88,8 +90,43 @@ module.exports = inputs => {
 
 const result = formatTest(inputs)
 
-if (result instanceof) {
-    return new Error(result)
+if (result instanceof Error) {
+    // handle error here
+}
+
+```
+
+## Promise value test
+
+```javascript
+// note: format runs synchronously, it is a wrapper function
+const formatTest = promiseFormat({
+    name: stringFormat({capitalize: 'words', min: 2, max: 20, trim: true, notEmpty: true}),
+    age: integerFormat({min: 18, max: 99, notEmpty: true}),
+    friends: [integerFormat({naturalNumber: true, notZero: true})]
+})
+
+module.exports = async input => {
+    const result = await formatTest(inputs)
+}
+
+```
+
+## Promise value test with custom error class constructor
+
+```javascript
+const { 
+    UserInputError
+} = require('apollo-server')
+
+const formatTest = promiseFormat({
+    name: stringFormat({capitalize: 'words', min: 2, max: 20, trim: true, notEmpty: true})
+})
+
+// if error is thrown, it will be passed to class constructor first, then rejected by promise
+// useful when you want to throw a specific class of error
+module.exports = async input => {
+    const result = await formatTest(inputs, UserInputError)
 }
 
 ```

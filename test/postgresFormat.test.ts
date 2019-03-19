@@ -214,6 +214,7 @@ test('postgresPromiseFormat error class constructor', async t => {
 		const result = await test(null)
 		t.end('no-error')
 	} catch(e) {
+		t.equal(e.message, 'Error: Format error. "NAMESPACE_DEFAULT_NAME" has invalid value "null". Expected non-empty string, found "null".')
 		t.equal(typeof e.someCustomFunction, 'function')
 		t.end()
 	}
