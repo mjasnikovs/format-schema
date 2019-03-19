@@ -172,6 +172,37 @@ test('postgresPromiseFormat success', async t => {
 	}
 })
 
+test('postgresPromiseFormat success custom types', async t => {
+	const test = postgresPromiseFormat({
+		string: stringFormat({pgType: 'varchar'}),
+		boolean: booleanFormat({pgType: 'bit'}),
+		integer: integerFormat({pgType: 'smallint'}),
+		float: floatFormat({pgType: 'double precision'})
+	})
+
+	const object = {
+		string: 'string',
+		boolean: true,
+		integer: 1,
+		float: 1.1	
+	}
+
+	const objectResult = {
+		string: { value: 'string', key: 'string', type: 'varchar' },
+		boolean: { value: true, key: 'boolean', type: 'bit' },
+		integer: { value: 1, key: 'integer', type: 'smallint' },
+		float: { value: 1.1, key: 'float', type: 'double precision' }
+	}
+
+	try {
+		const result = await test(object)
+		t.deepEqual(result, objectResult)
+		t.end()
+	} catch(e) {
+		t.end(e.message)
+	}
+})
+
 test('postgresPromiseFormat error class constructor', async t => {
 	class CustomError extends Error {
 		someCustomFunction() {}
