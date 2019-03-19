@@ -15,3 +15,5 @@ nbproject
 .node_history
 dump.rdb
 .env.production
+srcOld
+dist

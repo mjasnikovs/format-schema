@@ -1,6 +1,8 @@
 .git
 node_modules
 test
+test-compatibility
+src
 assets
 .eslintignore
 .eslintrc
