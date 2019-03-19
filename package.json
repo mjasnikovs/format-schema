@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "compile": "npx tsc -p tsconfig.json",
-    "test": "npm run \"test-new\" && tape ./test-compatibility/**/*.test.js",
+    "test": "npm run \"test-new\" && npm run \"test-compatibility\"",
     "test-new": "ts-node --project tsconfig.json node_modules/tape/bin/tape ./test/**/*.test.ts",
     "test-compatibility": "npx tsc -p tsconfig.json && tape ./test-compatibility/**/*.test.js"
   },
